@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/aitai-interview/static/css/main.6e6b8d10.chunk.css",
-    "main.js": "/aitai-interview/static/js/main.c1e15024.chunk.js",
-    "main.js.map": "/aitai-interview/static/js/main.c1e15024.chunk.js.map",
+    "main.js": "/aitai-interview/static/js/main.247ef135.chunk.js",
+    "main.js.map": "/aitai-interview/static/js/main.247ef135.chunk.js.map",
     "runtime-main.js": "/aitai-interview/static/js/runtime-main.727d5db7.js",
     "runtime-main.js.map": "/aitai-interview/static/js/runtime-main.727d5db7.js.map",
     "static/css/2.a95be28f.chunk.css": "/aitai-interview/static/css/2.a95be28f.chunk.css",
@@ -18,6 +18,6 @@
     "static/css/2.a95be28f.chunk.css",
     "static/js/2.b7b01fd4.chunk.js",
     "static/css/main.6e6b8d10.chunk.css",
-    "static/js/main.c1e15024.chunk.js"
+    "static/js/main.247ef135.chunk.js"
   ]
 }
