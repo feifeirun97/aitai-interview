@@ -182,7 +182,7 @@ export default function TableCustomized() {
       <div className={`table ${selectedT2 && "table-active"}`} style={{marginBottom:'1.5rem'}} onClick={()=>changeT2()}>
         <div className={`table ${selectedT2 && "tableName-active"}`} style={{display:'flex',alignItems:'center'}}>
           <div className={`${selectedT2 ? "selectBar-active":"selectBar"}`}></div>
-          <Title style={{ fontSize: '1.2rem', fontWeight: '700', margin: '0.5rem 1rem 0.5rem 0.2rem' }}>产品</Title>
+          <Title style={{ fontSize: '1.2rem', fontWeight: '700', margin: '0.5rem 1rem 0.5rem 0.2rem' }}>地区</Title>
           <BarChartOutlined style={{ fontSize: '1.2rem'}}/>
         </div>
         <Table  showHeader={false} tableLayout='fixed' columns={columns} dataSource={data2} size="middle" pagination={{ position: ["none", "none"] }} />
