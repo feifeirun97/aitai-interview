@@ -4,7 +4,7 @@
 .header {
   padding: 0;
   background-color: white;
-  height: 7vh;
+  height: 4vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,3 +16,12 @@
   background-color: #3573db;
 }
 
+.content {
+  padding: 2vh 20vh 1vh 30vh
+}
+
+@media screen and (max-width: 1000px) {
+  .content {   
+    padding: 2vh 2vh 1vh 2vh
+  }
+}

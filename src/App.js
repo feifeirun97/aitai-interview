@@ -8,7 +8,7 @@ import LineChart from "./Components/LineChart/Linechart";
 import { Row, Col } from 'antd';
 import Tables from "./Components/Tables/Tables";
 import { Modal, Button } from 'antd';
-
+import Model from "./Components/Model/metrics/Index";
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -41,9 +41,9 @@ function App() {
           <Avatar style={{ backgroundColor: '#3673db', marginRight: '1vw' }} />
         </Header>
         <Layout>
-          <Sider  width={'15%'} theme='light' style={{height:"90vh",margin:'2vh 0 1vh 0',borderRadius:'0.5rem'}}></Sider>
-          <Layout style={{ padding: '0 0 1vh 2vh'}}>
-            <Card style={{ height:'6vh', margin: '2vh 0 2vh 0' , borderRadius:'0.5rem',display:'flex', alignItems:'center' }}>
+          <Sider  width={'10%'} theme='light' style={{height:"90vh",margin:'2vh 0 1vh 0',borderRadius:'0.5rem'}}></Sider>
+          <Layout className='content'>
+            {/* <Card style={{ height:'6vh', margin: '2vh 0 2vh 0' , borderRadius:'0.5rem',display:'flex', alignItems:'center' }}>
               <Button danger type="primary" onClick={showModal} style={{marginLeft:'0.5rem'}}>
                 点我
               </Button>
@@ -56,7 +56,7 @@ function App() {
                 </p>
                 <p>不管结果如何，我学到了不少。谢谢</p>
               </Modal>
-            </Card>
+            </Card> */}
             <Content
               style={{
                 background: '#fff',
@@ -64,10 +64,10 @@ function App() {
                 borderRadius:'0.5rem',
                 display:'flex',
                 flexDirection:'column',
-                justifyContent:'space-around'
+                // justifyContent:'space-around'
               }}
             >
-              <Row gutter={20}>
+              {/* <Row gutter={20}>
                 <Col span={12} style={{width:'10px'}} ><Barchart/></Col>
                 <Col span={12}> <LineChart /></Col>
               </Row>
@@ -77,8 +77,8 @@ function App() {
                 <Radio value={2}>年报</Radio>
               </Radio.Group>
               
-              <Tables />
-
+              <Tables /> */}
+              <Model />
             </Content>
           </Layout>
         </Layout>
