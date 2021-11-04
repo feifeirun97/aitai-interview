@@ -1,9 +1,15 @@
 import React from 'react'
-import ComboChart from '../components/CombChart'
+import CombChart from '../components/CombChart'
+import CombTable from '../components/CombTable'
+
+
 export default function ChartAndTableUnit() {
     return (
-        <div>
-            <ComboChart/>
+        <>
+        <div style={{padding:"0 3%"}}>
+            <CombChart/>
         </div>
+        <CombTable/>
+        </>
     )
 }

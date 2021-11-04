@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Avatar, Card} from 'antd';
+import { Avatar} from 'antd';
 import { Layout} from 'antd';
-import { Radio } from 'antd';
-import Barchart from "./Components/Barchart/Barchart";
-import LineChart from "./Components/LineChart/Linechart";
-import { Row, Col } from 'antd';
-import Tables from "./Components/Tables/Tables";
-import { Modal, Button } from 'antd';
+
 import Model from "./Components/Model/metrics/Index";
 
 
@@ -17,22 +12,22 @@ const { Header, Content, Footer, Sider } = Layout;
 function App() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [value, setValue] = React.useState(1);
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+  // const showModal = () => {
+  //   setIsModalVisible(true);
+  // };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
+  // const handleOk = () => {
+  //   setIsModalVisible(false);
+  // };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+  // const handleCancel = () => {
+  //   setIsModalVisible(false);
+  // };
 
-  const onChange = e => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
-  };
+  // const onChange = e => {
+  //   console.log('radio checked', e.target.value);
+  //   setValue(e.target.value);
+  // };
   return (
     <div className="App">
       <Layout>

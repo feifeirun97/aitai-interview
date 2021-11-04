@@ -1,7 +1,7 @@
 import { Typography } from 'antd'
 
-import { Menu, Dropdown, Button, Space } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { Space } from 'antd';
+
 import { Line } from '@ant-design/charts';
 import { useSelector } from 'react-redux';
 
