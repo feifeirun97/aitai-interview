@@ -1,19 +1,132 @@
-import React from 'react';
-import {  Table } from 'antd';
+import React, { useEffect } from 'react';
+import { Table } from 'antd';
+import values from 'postcss-modules-values';
 
 
 
 
-const CombTable = () => {
+const CombTable = ({ tableActive }) => {
 
-    const data = [{"key":3,"attr":"attr_one","Jan":342,"Feb":0,"Mar":0,"Apr":0,"May":342,"Jun":0,"Jul":372,"Aug":0,"Sep":12,"Oct":7,"Nov":32,"Dec":87},{"key":4,"attr":"attr_two","Jan":43,"Feb":234,"Mar":0,"Apr":53,"May":0,"Jun":344,"Jul":43,"Aug":5,"Sep":0,"Oct":453,"Nov":63,"Dec":0},{"key":5,"attr":"attr_three","Jan":0,"Feb":200,"Mar":3,"Apr":599,"May":0,"Jun":12,"Jul":0,"Aug":32,"Sep":345,"Oct":40,"Nov":0,"Dec":0},{"key":6,"attr":"attr_four","Jan":323,"Feb":323,"Mar":33,"Apr":0,"May":323,"Jun":132,"Jul":323,"Aug":0,"Sep":0,"Oct":0,"Nov":23,"Dec":2},{"key":7,"attr":"attr_five","Jan":0,"Feb":0,"Mar":2,"Apr":60,"May":0,"Jun":567,"Jul":0,"Aug":67,"Sep":0,"Oct":3,"Nov":352,"Dec":234}]
-    const col=[{"title":"","width":100,"dataIndex":"attr","key":"attr","fixed":"left"},{"title":"Jan","width":100,"dataIndex":"Jan","key":"Jan"},{"title":"Feb","width":100,"dataIndex":"Feb","key":"Feb"},{"title":"Mar","width":100,"dataIndex":"Mar","key":"Mar"},{"title":"Apr","width":100,"dataIndex":"Apr","key":"Apr"},{"title":"May","width":100,"dataIndex":"May","key":"May"},{"title":"Jun","width":100,"dataIndex":"Jun","key":"Jun"},{"title":"Jul","width":100,"dataIndex":"Jul","key":"Jul"},{"title":"Aug","width":100,"dataIndex":"Aug","key":"Aug"},{"title":"Sep","width":100,"dataIndex":"Sep","key":"Sep"},{"title":"Oct","width":100,"dataIndex":"Oct","key":"Oct"},{"title":"Nov","width":100,"dataIndex":"Nov","key":"Nov"},{"title":"Dec","width":100,"dataIndex":"Dec","key":"Dec"}]
+    const data = [{
+        'key': 1,
+        'attr': 'users',
+        '2018-01': 1543,
+        '2018-02': 1202,
+        '2018-03': 1974,
+        '2018-04': 1957,
+        '2018-05': 2029,
+        '2018-06': 2033,
+        '2018-07': 2619,
+        '2018-08': 2646,
+        '2018-09': 2741,
+        '2018-10': 2927,
+        '2018-11': 3546,
+        '2018-12': 3071,
+        '2019-01': 2824,
+        '2019-02': 2976,
+        '2019-03': 4338,
+        '2019-04': 4426,
+        '2019-05': 4722,
+        '2019-06': 4511,
+        '2019-07': 5373,
+        '2019-08': 5684,
+        '2019-09': 5622,
+        '2019-10': 6515,
+        '2019-11': 6598,
+        '2019-12': 5762,
+        '2020-01': 4302,
+        '2020-02': 4765,
+        '2020-03': 6842,
+        '2020-04': 7289,
+        '2020-05': 7298,
+        '2020-06': 6076,
+        '2020-07': 2398,
+        '2020-08': 3672,
+        '2020-09': 7679,
+        '2020-10': 7771,
+        '2020-11': 8750,
+        '2020-12': 7214,
+        '2021-01': 6797,
+        '2021-02': 6337,
+        '2021-03': 9256,
+        '2021-04': 9307,
+        '2021-05': 9724,
+        '2021-06': 10579,
+        '2021-07': 9128
+    },
+    {
+        'key': 2,
+        'attr': 'arpu',
+        '2018-01': 548.58,
+        '2018-02': 560.01,
+        '2018-03': 572.13,
+        '2018-04': 590.02,
+        '2018-05': 544.3,
+        '2018-06': 463.55,
+        '2018-07': 579.24,
+        '2018-08': 493.33,
+        '2018-09': 495.25,
+        '2018-10': 459.38,
+        '2018-11': 683.51,
+        '2018-12': 426.44,
+        '2019-01': 487.96,
+        '2019-02': 506.64,
+        '2019-03': 526.52,
+        '2019-04': 475.03,
+        '2019-05': 466.5,
+        '2019-06': 411.59,
+        '2019-07': 502.57,
+        '2019-08': 547.21,
+        '2019-09': 463.22,
+        '2019-10': 592.54,
+        '2019-11': 606.1,
+        '2019-12': 411.13,
+        '2020-01': 424.9,
+        '2020-02': 492.76,
+        '2020-03': 543.16,
+        '2020-04': 488.48,
+        '2020-05': 510.26,
+        '2020-06': 890.63,
+        '2020-07': 909.42,
+        '2020-08': 880.37,
+        '2020-09': 609.35,
+        '2020-10': 595.02,
+        '2020-11': 910.67,
+        '2020-12': 488.68,
+        '2021-01': 518.2,
+        '2021-02': 563.26,
+        '2021-03': 664.83,
+        '2021-04': 553.46,
+        '2021-05': 565.12,
+        '2021-06': 712.43,
+        '2021-07': 421.88
+    }]
+    const columns = [{ "title": "", "width": 100, "dataIndex": "attr", "key": "attr", "fixed": "left" },]
+    // console.log(data, columns)
+
+
+ 
+    for (const i in data[0]) {
+        if (i !== 'key' & i !== 'attr') {
+            let currentObj = { "title": i, "width": 100, "dataIndex": i, "key": i }
+            if(!(currentObj in columns)){
+                columns.push(currentObj)
+            }
+        }
+    }
+    
+    useEffect(()=>{
+       if(tableActive){
+           const aimColumn = document.getElementsByClassName()
+       }
+    },[tableActive])
+    
 
     return (
         <div className='combotable'>
-        
-        <Table dataSource={data} columns={col} scroll={{x:100}} pagination={false}></Table>
-    </div>
+            <Table size='small' dataSource={data} columns={columns} scroll={{ x: 100 }} pagination={false}></Table>
+            {/* <Table dataSource={data} columns={col} scroll={{ x: 100 }} pagination={false}></Table> */}
+        </div>
     )
 
 };
