@@ -310,7 +310,7 @@ import * as echarts from 'echarts';
 // };
 
 
-const ComboChart = ({ data, tableActive, chartActive, setTableActive,setChartActive }) => {
+const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartActive }) => {
 
   // console.log(chartActive)
   useEffect(() => {
@@ -379,8 +379,9 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive,setChartAct
         }
       ],
       series: [
-        { type: 'bar', color: '#6076fa', yAxisIndex: 0, clip: false },
+        { id: 'bar', type: 'bar', color: '#6076fa', yAxisIndex: 0, clip: false },
         {
+          id: 'line',
           type: 'line',
           color: '#de72f7',
           // smooth: true,
@@ -390,10 +391,10 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive,setChartAct
           // showSymbol:false,
           symbolSize: (val, params) => {
 
-            if (chartActive>=0) {
+            if (chartActive >= 0) {
               if (params.dataIndex === chartActive) { return 15 }
-              if (params.dataIndex === chartActive-1) { return 7 }
-              if (params.dataIndex === chartActive+1) { return 7 }
+              if (params.dataIndex === chartActive - 1) { return 7 }
+              if (params.dataIndex === chartActive + 1) { return 7 }
             }
             return 4
           }
@@ -404,7 +405,21 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive,setChartAct
     myChart.on('click', function (e) {
       setChartActive('')
       setTableActive(e.data[0])
-      
+      myChart.setOption({
+        series: [
+          {
+            id: 'line',
+            symbolSize: (val, params) => {
+              if (chartActive >= 0) {
+                if (params.dataIndex === e.dataIndex) { return 15 }
+                if (params.dataIndex === e.dataIndex - 1) { return 7 }
+                if (params.dataIndex === e.dataIndex + 1) { return 7 }
+              }
+              return 4
+            }
+          }
+        ]
+      });
     });
 
 
