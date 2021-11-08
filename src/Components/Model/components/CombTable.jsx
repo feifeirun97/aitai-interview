@@ -1,130 +1,106 @@
 import React, { useEffect } from 'react';
 import { Table } from 'antd';
-import values from 'postcss-modules-values';
+
+import './CombTable.css'
 
 
 
-
-const CombTable = ({ tableActive }) => {
-
-    const data = [{
-        'key': 1,
-        'attr': 'users',
-        '2018-01': 1543,
-        '2018-02': 1202,
-        '2018-03': 1974,
-        '2018-04': 1957,
-        '2018-05': 2029,
-        '2018-06': 2033,
-        '2018-07': 2619,
-        '2018-08': 2646,
-        '2018-09': 2741,
-        '2018-10': 2927,
-        '2018-11': 3546,
-        '2018-12': 3071,
-        '2019-01': 2824,
-        '2019-02': 2976,
-        '2019-03': 4338,
-        '2019-04': 4426,
-        '2019-05': 4722,
-        '2019-06': 4511,
-        '2019-07': 5373,
-        '2019-08': 5684,
-        '2019-09': 5622,
-        '2019-10': 6515,
-        '2019-11': 6598,
-        '2019-12': 5762,
-        '2020-01': 4302,
-        '2020-02': 4765,
-        '2020-03': 6842,
-        '2020-04': 7289,
-        '2020-05': 7298,
-        '2020-06': 6076,
-        '2020-07': 2398,
-        '2020-08': 3672,
-        '2020-09': 7679,
-        '2020-10': 7771,
-        '2020-11': 8750,
-        '2020-12': 7214,
-        '2021-01': 6797,
-        '2021-02': 6337,
-        '2021-03': 9256,
-        '2021-04': 9307,
-        '2021-05': 9724,
-        '2021-06': 10579,
-        '2021-07': 9128
-    },
-    {
-        'key': 2,
-        'attr': 'arpu',
-        '2018-01': 548.58,
-        '2018-02': 560.01,
-        '2018-03': 572.13,
-        '2018-04': 590.02,
-        '2018-05': 544.3,
-        '2018-06': 463.55,
-        '2018-07': 579.24,
-        '2018-08': 493.33,
-        '2018-09': 495.25,
-        '2018-10': 459.38,
-        '2018-11': 683.51,
-        '2018-12': 426.44,
-        '2019-01': 487.96,
-        '2019-02': 506.64,
-        '2019-03': 526.52,
-        '2019-04': 475.03,
-        '2019-05': 466.5,
-        '2019-06': 411.59,
-        '2019-07': 502.57,
-        '2019-08': 547.21,
-        '2019-09': 463.22,
-        '2019-10': 592.54,
-        '2019-11': 606.1,
-        '2019-12': 411.13,
-        '2020-01': 424.9,
-        '2020-02': 492.76,
-        '2020-03': 543.16,
-        '2020-04': 488.48,
-        '2020-05': 510.26,
-        '2020-06': 890.63,
-        '2020-07': 909.42,
-        '2020-08': 880.37,
-        '2020-09': 609.35,
-        '2020-10': 595.02,
-        '2020-11': 910.67,
-        '2020-12': 488.68,
-        '2021-01': 518.2,
-        '2021-02': 563.26,
-        '2021-03': 664.83,
-        '2021-04': 553.46,
-        '2021-05': 565.12,
-        '2021-06': 712.43,
-        '2021-07': 421.88
-    }]
+const CombTable = ({ data, tableActive, setTableActive, setChartActive }) => {
     const columns = [{ "title": "", "width": 100, "dataIndex": "attr", "key": "attr", "fixed": "left" },]
     // console.log(data, columns)
 
 
- 
+
     for (const i in data[0]) {
         if (i !== 'key' & i !== 'attr') {
             let currentObj = { "title": i, "width": 100, "dataIndex": i, "key": i }
-            if(!(currentObj in columns)){
+            if (!(currentObj in columns)) {
                 columns.push(currentObj)
             }
         }
     }
-    
-    useEffect(()=>{
-       if(tableActive){
-           const aimColumn = document.getElementsByClassName()
-       }
-    },[tableActive])
-    
+
+    useEffect(() => {
+        if (tableActive) {
+            //find the table, thead and tbody
+            const table = document.getElementsByClassName('combTable')[0]
+            const thead = table.getElementsByClassName('ant-table-thead')[0].getElementsByClassName('ant-table-cell')
+            const tbody = table.getElementsByClassName('ant-table-tbody')[0].getElementsByClassName('ant-table-row')
+
+            //change the title
+            //activeIndex work in tbody part
+            let activeIndex = -1
+            for (let i = 0; i < thead.length; i++) {
+                if (thead[i].innerText === tableActive) {
+                    thead[i].scrollIntoView({
+                        behavior: "smooth", block: 'nearest', inline: "center"
+                    })
+                    thead[i].style.color = '#fff'
+                    thead[i].style.backgroundColor = '#6076fa'
+                    activeIndex = i
+                } else {
+                    thead[i].style.color = 'black'
+                    thead[i].style.backgroundColor = 'white'
+                }
+
+                let bodyCells = null
+                for (let i = 0; i < tbody.length; i++) {
+
+                    bodyCells = tbody[i].getElementsByClassName('ant-table-cell')
+                    for (let j = 0; j < bodyCells.length; j++) {
+                        if (j === activeIndex) {
+                            bodyCells[j].style.backgroundColor = '#eef0ff'
+                        } else {
+                            bodyCells[j].style.backgroundColor = 'white'
+                        }
+                    }
+
+                }
+            }
+        }
+    }, [tableActive])
 
     return (
-        <div className='combotable'>
-            <Table size='small' dataSource={data} columns={columns} scroll={{ x: 100 }} pagination={false}></Table>
+        <div className='combTable'>
+            <Table
+                size='small'
+                dataSource={data}
+                columns={columns}
+                scroll={{ x: 100 }}
+                pagination={false}
+                onRow={(record, index) => {
+                    return {
+                        onClick: event => {
+                            // console.log(event.target, record, index)
+                            const table = document.getElementsByClassName('combTable')[0]
+                            const thead = table.getElementsByClassName('ant-table-thead')[0].getElementsByClassName('ant-table-cell')
+                            const tbody = table.getElementsByClassName('ant-table-tbody')[0].getElementsByClassName('ant-table-row')
+
+                            let bodyCells = tbody[index].getElementsByClassName('ant-table-cell')
+
+                            for (let j = 0; j < bodyCells.length; j++) {
+                                if (bodyCells[j] === event.target) {
+                                    setTableActive(thead[j].innerText)
+                                    //行标题index为0，故返回-1
+                                    setChartActive(j-1)
+                                }
+                            }
+                        },
+                        onMouseEnter: event => { }, // 鼠标移入行
+                        onMouseLeave: event => { },
+                    };
+                }}
+               onHeaderRow={(record, index) => {
+                return {
+                    onClick: event => {
+                        setTableActive(event.target.innerText)
+                    },
+                    onMouseEnter: event => { }, // 鼠标移入行
+                    onMouseLeave: event => { },
+                };
+            }}
+
+            ></Table>
             {/* <Table dataSource={data} columns={col} scroll={{ x: 100 }} pagination={false}></Table> */}
         </div>
     )

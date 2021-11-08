@@ -38,20 +38,7 @@ function App() {
         <Layout>
           <Sider  width={'10%'} theme='light' style={{height:"90vh",margin:'2vh 0 1vh 0',borderRadius:'0.5rem'}}></Sider>
           <Layout className='content'>
-            {/* <Card style={{ height:'6vh', margin: '2vh 0 2vh 0' , borderRadius:'0.5rem',display:'flex', alignItems:'center' }}>
-              <Button danger type="primary" onClick={showModal} style={{marginLeft:'0.5rem'}}>
-                点我
-              </Button>
-              <Modal title="信息" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <p>您好</p>
-                <p>之前没有用过antd+antv+redux, 学校期中考试刚结束, 刚忙完。</p>
-                <p>我对material ui比较熟练，本以为会很快完成，没想到antd的差别还是挺大的。
-                  28号刚开始学的antd+antv，29号中午就要交掉，时间有些赶。
-                  最后来不及调整有些细节了，抱歉。
-                </p>
-                <p>不管结果如何，我学到了不少。谢谢</p>
-              </Modal>
-            </Card> */}
+
             <Content
               style={{
                 background: '#fff',

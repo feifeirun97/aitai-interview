@@ -304,147 +304,123 @@ import * as echarts from 'echarts';
 //   { type: 'line', datasetIndex: 1, emphasis: { focus: 'series' } ,yAxisIndex:1,lineStyle:{width:3}},
 //   { type: 'line', datasetIndex: 1, emphasis: { focus: 'series' } ,yAxisIndex:1,lineStyle:{width:3}},
 //   { type: 'line', datasetIndex: 1, emphasis: { focus: 'series' } ,yAxisIndex:1,lineStyle:{width:3}},
-  
-  
+
+
 // ]
 // };
 
 
-const ComboChart = ({setTableActive}) => {
-  useEffect(()=>{
-    var myChart = echarts.init(document.getElementById('main'));
-// 绘制图表
-    myChart.setOption({
-        legend: {},
-        tooltip: {
-          trigger: 'axis',
-          showContent: true,
-          enterable: true,
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-          axisPointer: {
-            type: 'cross',
-            crossStyle: {
-              color: '#fff'
-            }
-          },
-          position: function (point, params, dom, rect, size) {
-            // 上部
-            return [point[0] - 65, point[1] - 110];
-          },
-          transitionDuration: 1.2 //跟随鼠标延迟
-        },
-        toolbox: {
-          feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] },
-            restore: { show: true },
-            saveAsImage: { show: true }
-          }
-        },
-        dataset: {
-          // 提供一份数据。
-          dimensions: ['mon', 'users', 'arpu'],
-          source: [
-            { mon: '2018-01', users: 1543, arpu: 548.58 },
-            { mon: '2018-02', users: 1202, arpu: 560.01 },
-            { mon: '2018-03', users: 1974, arpu: 572.13 },
-            { mon: '2018-04', users: 1957, arpu: 590.02 },
-            { mon: '2018-05', users: 2029, arpu: 544.3 },
-            { mon: '2018-06', users: 2033, arpu: 463.55 },
-            { mon: '2018-07', users: 2619, arpu: 579.24 },
-            { mon: '2018-08', users: 2646, arpu: 493.33 },
-            { mon: '2018-09', users: 2741, arpu: 495.25 },
-            { mon: '2018-10', users: 2927, arpu: 459.38 },
-            { mon: '2018-11', users: 3546, arpu: 683.51 },
-            { mon: '2018-12', users: 3071, arpu: 426.44 },
-            { mon: '2019-01', users: 2824, arpu: 487.96 },
-            { mon: '2019-02', users: 2976, arpu: 506.64 },
-            { mon: '2019-03', users: 4338, arpu: 526.52 },
-            { mon: '2019-04', users: 4426, arpu: 475.03 },
-            { mon: '2019-05', users: 4722, arpu: 466.5 },
-            { mon: '2019-06', users: 4511, arpu: 411.59 },
-            { mon: '2019-07', users: 5373, arpu: 502.57 },
-            { mon: '2019-08', users: 5684, arpu: 547.21 },
-            { mon: '2019-09', users: 5622, arpu: 463.22 },
-            { mon: '2019-10', users: 6515, arpu: 592.54 },
-            { mon: '2019-11', users: 6598, arpu: 606.1 },
-            { mon: '2019-12', users: 5762, arpu: 411.13 },
-            { mon: '2020-01', users: 4302, arpu: 424.9 },
-            { mon: '2020-02', users: 4765, arpu: 492.76 },
-            { mon: '2020-03', users: 6842, arpu: 543.16 },
-            { mon: '2020-04', users: 7289, arpu: 488.48 },
-            { mon: '2020-05', users: 7298, arpu: 510.26 },
-            { mon: '2020-06', users: 6076, arpu: 890.63 },
-            { mon: '2020-07', users: 2398, arpu: 909.42 },
-            { mon: '2020-08', users: 3672, arpu: 880.37 },
-            { mon: '2020-09', users: 7679, arpu: 609.35 },
-            { mon: '2020-10', users: 7771, arpu: 595.02 },
-            { mon: '2020-11', users: 8750, arpu: 910.67 },
-            { mon: '2020-12', users: 7214, arpu: 488.68 },
-            { mon: '2021-01', users: 6797, arpu: 518.2 },
-            { mon: '2021-02', users: 6337, arpu: 563.26 },
-            { mon: '2021-03', users: 9256, arpu: 664.83 },
-            { mon: '2021-04', users: 9307, arpu: 553.46 },
-            { mon: '2021-05', users: 9724, arpu: 565.12 },
-            { mon: '2021-06', users: 10579, arpu: 712.43 },
-            { mon: '2021-07', users: 9128, arpu: 421.88 }
-          ]
-        },
-        grid:{
-          left:'3%',
-          right:'5%',
-          bottom:'10%'
+const ComboChart = ({ data, tableActive, chartActive, setTableActive,setChartActive }) => {
 
-        },
-        xAxis: {
-          type: 'category',
-          axisPointer: {
-            type: 'shadow'
+  // console.log(chartActive)
+  useEffect(() => {
+    let myChart = echarts.init(document.getElementById('main'));
+    // 绘制图表
+    myChart.setOption({
+      legend: {},
+      tooltip: {
+        trigger: 'axis',
+        showContent: true,
+        // enterable: true,
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#fff'
           }
         },
-        yAxis: [
-          {
-            type: 'value',
-            name: 'users',
-            min: 0,
-            max: 10000,
-            interval: 2000,
-            axisLabel: {
-              formatter: function(value) {
-                if (value===0){return 0 }
-                return value/1000 + 'k'
-              }
-            }
-          },
-          {
-            type: 'value',
-            name: 'arpu',
-            min: 400,
-            max: 950,
-            interval: 100,
-            axisLabel: {
-              formatter: '{value}'
+        position: function (point, params, dom, rect, size) {
+          // 上部
+          return [point[0] - 65, point[1] - 110];
+        },
+        transitionDuration: 1.2 //跟随鼠标延迟
+      },
+      toolbox: {
+        feature: {
+          dataView: { show: true, readOnly: false },
+          magicType: { show: true, type: ['line', 'bar'] },
+          restore: { show: true },
+          saveAsImage: { show: true }
+        }
+      },
+      dataset: {
+        source: data
+      },
+      grid: {
+        left: '3%',
+        right: '5%',
+        bottom: '10%'
+
+      },
+      xAxis: {
+        type: 'category',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      yAxis: [
+        {
+          type: 'value',
+          name: 'users',
+          axisLabel: {
+            formatter: function (value) {
+              if (value === 0) { return 0 }
+              return value / 1000 + 'k'
             }
           }
-        ],
-        series: [
-          { type: 'bar', color: '#22A7D9', yAxisIndex:0,},
-          { type: 'line', color: '#FF8119',yAxisIndex: 1,}
-        ]
-      });
-    myChart.on('click', function(e) {
-      setTableActive(e.data.mon)
+        },
+        {
+          type: 'value',
+          name: 'arpu',
+
+          axisLabel: {
+            formatter: '{value}'
+          }
+        }
+      ],
+      series: [
+        { type: 'bar', color: '#6076fa', yAxisIndex: 0, clip: false },
+        {
+          type: 'line',
+          color: '#de72f7',
+          // smooth: true,
+          yAxisIndex: 1,
+          lineStyle: { width: 4 },
+          symbol: "circle",
+          // showSymbol:false,
+          symbolSize: (val, params) => {
+
+            if (chartActive>=0) {
+              if (params.dataIndex === chartActive) { return 15 }
+              if (params.dataIndex === chartActive-1) { return 7 }
+              if (params.dataIndex === chartActive+1) { return 7 }
+            }
+            return 4
+          }
+        }
+      ]
     });
-    window.onresize = function(){
+
+    myChart.on('click', function (e) {
+      setChartActive('')
+      setTableActive(e.data[0])
+      
+    });
+
+
+
+
+
+    window.onresize = function () {
       myChart.resize();
       //myChart1.resize();    //若有多个图表变动，可多写
-  
-  }
-  },[])
+
+    }
+  }, [chartActive])
 
   return (
     <>
-      <div id='main' style={{height:'300px'}} ></div>
+      <div id='main' style={{ height: '300px' }} ></div>
       {/* <ReactECharts option={option2} /> */}
     </>
   )
