@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import CombChart from '../components/CombChart'
 import CombTable from '../components/CombTable'
+import GraphToolbar from '../components/GraphToolbar'
+import axios from 'axios'
+import { Button } from 'antd'
+
 
 
 export default function ChartAndTableUnit() {
     //这两个都是选中的标题，如2018Q1
     const [tableActive, setTableActive] = useState('')
     const [chartActive, setChartActive] = useState('')
-    // useEffect(() => {
-    //     console.log(tableActive)
-    //     // console.log(chartActive)
-    // }, [tableActive])
+    const [dataSwitch, setDataSwitch] = useState(1)
+
+    useEffect(() => {
+        console.log(dataSwitch)
+
+    }, [dataSwitch])
 
     const dummyData = {
         'plt': [
@@ -73,12 +79,29 @@ export default function ChartAndTableUnit() {
         ]
     }
 
+
+
     return (
         <>
-            <div style={{}}>
-                <CombChart data={dummyData.plt} tableActive={tableActive} chartActive={chartActive}  setTableActive={setTableActive} setChartActive={setChartActive}/>
-            </div>
-            <CombTable data={dummyData.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive}/>
+            <GraphToolbar setDataSwitch={setDataSwitch} />
+
+            {
+            dataSwitch===1
+            ?<>
+                <CombChart data={dummyData.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} />
+                <CombTable data={dummyData.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} />
+             </>
+            :null
+            }
+
+            {
+            dataSwitch===2 || dataSwitch===3
+            ?<>
+                yes
+             </>
+            :null
+            }
+
         </>
     )
 }

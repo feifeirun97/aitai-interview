@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Table } from 'antd';
 
-import './CombTable.css'
 
 
 

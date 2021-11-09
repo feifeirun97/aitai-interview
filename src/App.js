@@ -4,7 +4,7 @@ import { Avatar} from 'antd';
 import { Layout} from 'antd';
 
 import Model from "./Components/Model/metrics/Index";
-
+// import Chart from "./Components/Model/components/CombChart"
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -12,22 +12,7 @@ const { Header, Content, Footer, Sider } = Layout;
 function App() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [value, setValue] = React.useState(1);
-  // const showModal = () => {
-  //   setIsModalVisible(true);
-  // };
 
-  // const handleOk = () => {
-  //   setIsModalVisible(false);
-  // };
-
-  // const handleCancel = () => {
-  //   setIsModalVisible(false);
-  // };
-
-  // const onChange = e => {
-  //   console.log('radio checked', e.target.value);
-  //   setValue(e.target.value);
-  // };
   return (
     <div className="App">
       <Layout>
@@ -37,7 +22,7 @@ function App() {
         </Header>
         <Layout>
           <Sider  width={'10%'} theme='light' style={{height:"90vh",margin:'2vh 0 1vh 0',borderRadius:'0.5rem'}}></Sider>
-          <Layout className='content'>
+          <Layout style={{padding: '2vh 15vh 1vh 10vh'}}>
 
             <Content
               style={{
@@ -46,27 +31,19 @@ function App() {
                 borderRadius:'0.5rem',
                 display:'flex',
                 flexDirection:'column',
-                // justifyContent:'space-around'
+
               }}
             >
-              {/* <Row gutter={20}>
-                <Col span={12} style={{width:'10px'}} ><Barchart/></Col>
-                <Col span={12}> <LineChart /></Col>
-              </Row>
 
-              <Radio.Group onChange={onChange} value={value}>
-                <Radio value={1}>季报</Radio>
-                <Radio value={2}>年报</Radio>
-              </Radio.Group>
-              
-              <Tables /> */}
-              <Model />
+            <Model/>
             </Content>
           </Layout>
         </Layout>
       </Layout>
 
     </div>
+
+    
   );
 }
 

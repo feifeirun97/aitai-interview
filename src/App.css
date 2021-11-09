@@ -16,9 +16,6 @@
   background-color: #3573db;
 }
 
-.content {
-  padding: 2vh 20vh 1vh 30vh
-}
 
 @media screen and (max-width: 1000px) {
   .content {   

@@ -5,9 +5,7 @@ class Model extends React.Component {
     render() {
 
         return (
-          <>
-              <ChartAndTableUnit />
-          </>
+          <ChartAndTableUnit />
         );
       }
 }

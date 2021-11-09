@@ -422,22 +422,13 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
       });
     });
 
-
-
-
-
     window.onresize = function () {
       myChart.resize();
-      //myChart1.resize();    //若有多个图表变动，可多写
-
     }
   }, [chartActive])
 
   return (
-    <>
-      <div id='main' style={{ height: '300px' }} ></div>
-      {/* <ReactECharts option={option2} /> */}
-    </>
+    <div id='main' style={{ height: '300px',maxWidth:'780px'}} ></div>
   )
 };
 
