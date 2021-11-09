@@ -579,3 +579,207 @@ tooltip: {
 + post [新建单个]
 + post/put [改名]
 
+## CSS
+
+```css
+box-shadow: 0 2px 10px 0 rgb(51 51 79 / 2%);
+border-radius: 10px;
+
+/*graph toolbar*/
+display: flex;
+flex-wrap: wrap;
+justify-content: flex-start;
+border-bottom: 1px solid #E6E6FF;
+padding-bottom: 0.375rem;
+margin-bottom: 1.75rem;
+align-items: flex-start;
+```
+
+
+
+## Axios
+
+> 2层错误码，http外封装自己的代码
+>
+> 错误也返回200，包含data【0000，。。。】
+>
+> 跨域proxy
+
+##### Example
+
+```jsx
+  const handleClose = () => {
+    if (query.version === undefined) {
+      request("service-postInvestment/businessProcessNode/deleteTempProcess", {
+        method: "GET",
+        params: {
+          id: data.id,
+        },
+      }).then((res) => {
+        callback();
+      });
+    } else {
+      handlerClose(index)
+    }
+  };
+  
+  
+    useEffect(() => {
+    if (!reqType) return;
+
+    request('service-postInvestment/projectMaintain/getDictByType', 
+    {
+      method: 'GET',
+      params: {
+        type: reqType
+      }
+    })
+    .then(res => {
+      setList([...res.data.data])
+    })
+
+  }, reqType)
+
+
+
+  useEffect(() => {
+    // get GP info list
+    request('service-postInvestment/childfund/getGpSelectList', {
+      method: 'get'
+    }).then((res) => {
+      setGpList(res.data.data);
+    }).catch((err) => {
+      console.log(err);
+      message.error("获取GP数据失败");
+    });
+
+```
+
+
+
+```jsx
+    await request('service-postInvestment/childfund/saveChildfundPre', {
+      method: 'post',
+      data: bodyFormData,
+      headers: { 'Content-Type': 'multipart/form-data' }
+    }).then(res => {
+      console.log(res);
+      message.success("子基金创建成功！");
+      setLoading(false);
+
+      props.handleCancel();
+      props.queryFunds();
+    }).catch(err => {
+      console.log(err);
+      message.error("创建失败！");
+      setLoading(false);
+    });
+  }
+  
+  const getlistGp = async (params) => {
+    let res = await getData(API.listGp, {
+      data: params,
+      method: 'POST'
+    })
+    let shortNameArr = [];
+    res.dataList.forEach(item => {
+      shortNameArr.push({ text: item.shortName, value: item.shortName })
+      item.gpStrategy = formatGpStrategyData(item.gpStrategy)
+    })
+    setGpList(res)
+    setFlterData({ shortNameArr })
+  }
+```
+
+##### Mine
+
+```jsx
+// console.log(dataSwitch)
+const getURL = 'http://192.168.8.165:5020/service-itdd-get/get_drive_user_arpu_doc'
+const postURL = 'http://192.168.8.165:5020/service-itdd-post/get_drive_user_arpu'
+axios.get(getURL)
+.then(
+res => console.log(res.data.content)
+)
+.catch(
+err=>console.log('err:',err)
+)
+
+axios.post(postURL, {
+proj_id: 'gc_dxm',
+period: 'Y'
+})
+.then(function (response) {
+console.log(response);
+})
+.catch(function (error) {
+console.log(error);
+});
+```
+
+
+
+## Questions
+
+#### Week2-day2
+
+> Class extends--- this.state  和 function的选择
+>
+> 是大组件用class extends + this.state, 小组件用function + hook吗 【model文件夹下观察得到】
+
+```jsx
+//页面级用class， 看个人习惯
+```
+
+
+
+> utils文件夹下是什么
+
+```jsx
+//公用文件
+```
+
+
+
+> import { history } from "umi". umi的history和react-router-dom的history是一个东西吗？
+
+```jsx
+
+history.push("/modifyPSW");
+//一个东西
+```
+
+
+
+> routes理解？
+
+```jsx
+//config.js
+```
+
+
+
+> 结构理解？
+>
+> + Src下的Components是自定义的组件吗
+>
+> + utils文件夹下是什么
+
+```jsx
+//pages当前页面组件
+//src下是公用的，用的比较多
+//utils公用
+```
+
+
+
+> Layout理解？
+>
+> antd官网的layout是<Sider><Content><Header>,开发中也是按这样的来吗
+>
+> model里的代码是前人自己写的css布局的的
+
+```jsx
+//content, 自己写
+```
+
