@@ -24,7 +24,7 @@ function App() {
         </Header>
         <Layout>
           <Sider  width={'10%'} theme='light' style={{height:"90vh",margin:'2vh 0 1vh 0',borderRadius:'0.5rem'}}></Sider>
-          <Layout style={{padding: '2vh 15vh 1vh 10vh'}}>
+          <Layout style={{padding: '2vh 5vh 1vh 10vh'}}>
 
             <Content
               style={{

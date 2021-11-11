@@ -13,6 +13,17 @@ option = {
     // 此系列自己的调色盘。
      color: ['#dd6b66','#759aa0',]
     },
+//89, 112, 250
+const color=[rgb(89, 112, 250),rgb(222, 114, 247),rgb(59, 181, 216),rgb(252, 185, 75)]
+    {type: 'bar',stack: 'ad',atasetIndex: 0,emphasis: {focus: 'series'},color:'rgba(89, 112, 250, 0.6)'},
+    { type: 'bar', stack: 'ad', datasetIndex: 0,emphasis: {focus: 'series'},color:'rgba(222, 114, 247, 0.6)'},
+    { type: 'bar', stack: 'ad', datasetIndex: 0 ,emphasis: {focus: 'series'},color:'rgba(59, 181, 216, 0.6)'},
+    { type: 'bar', stack: 'ad', datasetIndex: 0,emphasis: {focus: 'series'},color:'rgba(252, 185, 75,0.6)'},
+    // { type: 'bar', stack: 'ad', datasetIndex: 0,emphasis: {focus: 'series'}},
+    { type: 'line', datasetIndex: 1, emphasis: { focus: 'series' }, yAxisIndex:1,lineStyle:{width:3},color:'rgba(89, 112, 250, 1)'},
+    { type: 'line', datasetIndex: 1, emphasis: { focus: 'series' }, yAxisIndex:1,lineStyle:{width:3},color:'rgba(222, 114, 247, 1)'},
+    { type: 'line', datasetIndex: 1, emphasis: { focus: 'series' } ,yAxisIndex:1,lineStyle:{width:3},color:'rgba(59, 181, 216, 1)'},
+    { type: 'line', datasetIndex: 1, emphasis: { focus: 'series' } ,yAxisIndex:1,lineStyle:{width:3},color:'rgba(252, 185, 75,1)'},
 ```
 
 ##### 样式设置: itemStyle、lineStyle、areaStyle、label
@@ -174,6 +185,7 @@ const option1 = {
 ##### example2
 
 ```js
+//line+bar堆叠
 option = {
     legend: { selected: {
       'per(01) top1-20':false,
@@ -665,17 +677,17 @@ history.push("/modifyPSW");
 >
 > 重要程度 a- b- c-
 >
-> umi	
+> less	
+>
+> axios	
+>
+> proxy	
 >
 > dva [redux plus]	
 >
 > webpack	
 >
-> proxy	
->
-> less	
->
-> Axios	
+> umi	
 
 ![image-20211111171516010](/Users/xufei/Library/Application Support/typora-user-images/image-20211111171516010.png)
 
