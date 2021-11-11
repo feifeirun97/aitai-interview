@@ -4,6 +4,8 @@ import { Avatar} from 'antd';
 import { Layout} from 'antd';
 
 import Model from "./Components/Model/metrics/Index";
+
+import Test from "./Components/Model/units/TestUint"
 // import Chart from "./Components/Model/components/CombChart"
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -36,6 +38,7 @@ function App() {
             >
 
             <Model/>
+            <Test />
             </Content>
           </Layout>
         </Layout>

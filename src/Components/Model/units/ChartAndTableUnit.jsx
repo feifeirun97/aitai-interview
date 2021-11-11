@@ -4,7 +4,7 @@ import CombTable from '../components/CombTable'
 import GraphToolbar from '../components/GraphToolbar'
 import axios from 'axios'
 import { Button } from 'antd'
-
+import { Empty } from 'antd';
 
 
 export default function ChartAndTableUnit() {
@@ -12,95 +12,78 @@ export default function ChartAndTableUnit() {
     const [tableActive, setTableActive] = useState('')
     const [chartActive, setChartActive] = useState('')
     const [dataSwitch, setDataSwitch] = useState(1)
+    //年月纬度展示
+    const [dimension, setDimension] = useState('')
+    //展示内容
+    const [display, setDisplay] = useState([])
+    const [data, setData] = useState('')
+
+
+    // useEffect(() => {
+    //     console.log(dataSwitch)
+    // }, [dataSwitch])
 
     useEffect(() => {
-        console.log(dataSwitch)
-
-    }, [dataSwitch])
-
-    const dummyData = {
-        'plt': [
-            ['quarter', 'users', 'arpu'],
-            ['2018Q1', 2943, 900.09],
-            ['2018Q2', 3686, 868.54],
-            ['2018Q3', 4931, 847.67],
-            ['2018Q4', 5865, 865.8],
-            ['2019Q1', 6389, 809.17],
-            ['2019Q2', 8237, 748.08],
-            ['2019Q3', 9851, 854.21],
-            ['2019Q4', 11174, 915.37],
-            ['2020Q1', 9594, 822.62],
-            ['2020Q2', 11873, 1069.31],
-            ['2020Q3', 11365, 888.05],
-            ['2020Q4', 13952, 1155.22],
-            ['2021Q1', 13322, 994.24],
-            ['2021Q2', 17395, 1045.3],
-            ['2021Q3', 9128, 421.88]],
-
-        'table': [
-            {
-                'key': 1,
-                'attr': 'users',
-                '2018Q1': 2943,
-                '2018Q2': 3686,
-                '2018Q3': 4931,
-                '2018Q4': 5865,
-                '2019Q1': 6389,
-                '2019Q2': 8237,
-                '2019Q3': 9851,
-                '2019Q4': 11174,
-                '2020Q1': 9594,
-                '2020Q2': 11873,
-                '2020Q3': 11365,
-                '2020Q4': 13952,
-                '2021Q1': 13322,
-                '2021Q2': 17395,
-                '2021Q3': 9128
-            },
-            {
-                'key': 2,
-                'attr': 'arpu',
-                '2018Q1': 900.09,
-                '2018Q2': 868.54,
-                '2018Q3': 847.67,
-                '2018Q4': 865.8,
-                '2019Q1': 809.17,
-                '2019Q2': 748.08,
-                '2019Q3': 854.21,
-                '2019Q4': 915.37,
-                '2020Q1': 822.62,
-                '2020Q2': 1069.31,
-                '2020Q3': 888.05,
-                '2020Q4': 1155.22,
-                '2021Q1': 994.24,
-                '2021Q2': 1045.3,
-                '2021Q3': 421.88
-            }
-        ]
-    }
+        console.log(dimension)
+    }, [dimension])
 
 
+    useEffect(() => {
 
+        let formdata = new FormData()
+        formdata.append('proj_id', 'gc_dxm')
+        //先get确定下一步post的formdata内容
+        axios.get('http://192.168.8.165:5020/service-itdd-get/get_drive_user_arpu_doc')
+            .then(res => {
+                //dimension空就获取display中第一个的数据Y
+                //dimension不空就获取dimension
+                if (dimension) {
+                    formdata.append(Object.keys(res.data.content.request)[1], dimension)
+                } else {
+                    formdata.append(Object.keys(res.data.content.request)[1], Object.keys(res.data.content.display.period)[0])
+                    setDisplay(res.data.content.display.period)
+                }
+                //post请求
+                axios.post('http://192.168.8.165:5020/service-itdd-post/get_drive_user_arpu', formdata)
+                    .then(res => {
+                        setData(res.data.content)
+                    })
+            })
+            .catch(err => console.log(err))
+    }, [dimension])
+
+    //加一个空状态，等到data获取到才显示
     return (
         <>
-            <GraphToolbar setDataSwitch={setDataSwitch} />
 
-            {
-            dataSwitch===1
-            ?<>
-                <CombChart data={dummyData.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} />
-                <CombTable data={dummyData.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} />
-             </>
-            :null
+            {data
+                ? <>
+                    <GraphToolbar setDataSwitch={setDataSwitch} dimension={dimension} setDimension={setDimension} display={display}/>
+
+                    {
+                        dataSwitch === 1
+                            ? <>
+                                <CombChart data={data.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} />
+                                <CombTable data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} />
+                            </>
+                            : null
+                    }
+
+                    {
+                        dataSwitch === 2 || dataSwitch === 3
+                            ? <>
+                                yes
+                            </>
+                            : null
+                    }
+                </>
+                : <Empty />
+
+
+
+
             }
 
-            {
-            dataSwitch===2 || dataSwitch===3
-            ?<>
-                yes
-             </>
-            :null
-            }
 
         </>
     )

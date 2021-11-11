@@ -331,7 +331,7 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
         },
         position: function (point, params, dom, rect, size) {
           // 上部
-          return [point[0] - 65, point[1] - 110];
+          return [point[0] - 65, point[1] - 220];
         },
         transitionDuration: 1.2 //跟随鼠标延迟
       },
@@ -386,15 +386,15 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
           color: '#de72f7',
           // smooth: true,
           yAxisIndex: 1,
-          lineStyle: { width: 4 },
+          lineStyle: { width: data.length < 8 ? 7 : 4 },
           symbol: "circle",
           // showSymbol:false,
           symbolSize: (val, params) => {
 
             if (chartActive >= 0) {
-              if (params.dataIndex === chartActive) { return 15 }
-              if (params.dataIndex === chartActive - 1) { return 7 }
-              if (params.dataIndex === chartActive + 1) { return 7 }
+              if (params.dataIndex === chartActive) { return data.length < 8 ? 20 : 12 }
+              if (params.dataIndex === chartActive - 1) { return data.length < 8 ? 12 : 7 }
+              if (params.dataIndex === chartActive + 1) { return data.length < 8 ? 12 : 7 }
             }
             return 4
           }
@@ -411,9 +411,9 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
             id: 'line',
             symbolSize: (val, params) => {
               if (chartActive >= 0) {
-                if (params.dataIndex === e.dataIndex) { return 15 }
-                if (params.dataIndex === e.dataIndex - 1) { return 7 }
-                if (params.dataIndex === e.dataIndex + 1) { return 7 }
+                if (params.dataIndex === chartActive) { return data.length < 8 ? 20 : 12 }
+                if (params.dataIndex === chartActive - 1) { return data.length < 8 ? 12 : 7 }
+                if (params.dataIndex === chartActive + 1) { return data.length < 8 ? 12 : 7 }
               }
               return 4
             }
@@ -425,10 +425,10 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
     window.onresize = function () {
       myChart.resize();
     }
-  }, [chartActive])
+  }, [chartActive, data])
 
   return (
-    <div id='main' style={{ height: '300px',maxWidth:'780px'}} ></div>
+    <div id='main' style={{ height: '300px', maxWidth: '780px' }} ></div>
   )
 };
 

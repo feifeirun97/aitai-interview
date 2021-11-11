@@ -1,117 +1,3 @@
-# 熟悉项目代码
-
-#### 查找/更改类
-
-```js
-const table = document.getElementsByClassName(styles.combTable)[0]
-const thead = table.getElementsByClassName('ant-table-thead')[0].getElementsByClassName('ant-table-cell')
-const tbody = table.getElementsByClassName('ant-table-tbody')[0].getElementsByClassName('ant-table-row')
-```
-
-![image-20211103200538825](https://i.loli.net/2021/11/03/rZpOM4Cxf8uajTl.png)
-
-#### 类
-
-**Menu**
-
-```less
-.menu {
-  position: absolute;
-  max-height: calc(100vh - 100px);
-  width: 164px;
-  margin: 10px 0;
-  font-size: 16px;
-
-  .subMenu {
-    .subMenuTitle {
-      cursor: default;
-      color: #808080;
-    }
-    .menuItem {
-      margin: 8px 0;
-      padding-left: 8px;
-      color: #4d4d4d;
-      border-radius: 4px;
-      cursor: pointer;
-      &:hover {
-        color: #4c7ee3;
-      }
-    }
-    .active {
-      color: #4c7ee3;
-      background: #ebf0fc;
-    }
-  }
-}
-
-```
-
-**MetricsContent**
-
-```jsx
-<div className={styles.metricsContent}>
-	{/* className : uint + xxxUnit */}
-    <ChartAndTableUnit /> 
-    <CompareUnit />
-    <GraphUnit />
-    <TableUnit />
-    <DoubleTableUnit />
-    <HeatMapUnit />
-</div>
-
-.metricsContent {
-  min-width: 820px;
-  margin-left: 156px;
-  padding: 0 116px;
-}
-```
-
-**Unit**
-
-```less
-.unit {
-  display: flex;
-  position: relative;
-  min-width: 890px;
-  border-radius: 5px;
-  background: #ffffff;
-  margin-bottom: 16px;
-}
-
-.chartAndTableUnit {
-  flex-direction: column;
-  .boxSelect {
-    position: absolute;
-    z-index: 1;
-    right: 36px;
-    top: 16px;
-  }
-}
-```
-
-**Mine**
-
-```
-<Layout>
-  <Sider  width={'10%'} theme='light' style={{height:"90vh",margin:'2vh 0 1vh 0',borderRadius:'0.5rem'}}></Sider>
-  <Layout className='content'>
-
-    <Content
-      style={{
-        background: '#fff',
-        padding: '1vh 2vh',
-        borderRadius:'0.5rem',
-        display:'flex',
-        flexDirection:'column',
-        // justifyContent:'space-around'
-      }}
-    >
-
-      <Model />
-    </Content>
-  </Layout>
-```
-
 # Echarts
 
 ![image-20211104150414370](https://i.loli.net/2021/11/04/imEvcJ7rs5Q8Loj.png)      // emphasis: {      //   focus: 'series'      // },
@@ -165,10 +51,6 @@ emphasis: {
     }   
 },
 ```
-
-
-
-![image-20211104203309508](https://i.loli.net/2021/11/04/y7KTxSoZkHrh6iX.png)
 
 **example**
 
@@ -489,51 +371,6 @@ option = {
 
 
 
-```
-Sapna Patel对所有人说说： 05:52 PM
-Remove the UNSW slides
-This weeks lecture
-You work out that its going to cost you $50,000 to starts
-You might decide to ask an investor for $50,000
-You might say okay well I’ll give you 5% (I just made this number up, you basically just make this percentage up as well)
-Therefore 1% = $10,000
-Because I went 50,000 / 5%
-Therefore 100% = $1M and therefore the valuation is $1m
-
-Zhenshan Wei对所有人说说： 05:56 PM
-so we just need to explain how  we  alloctate the investment like 5% of the  investment for marketing？
-
-Sapna Patel对所有人说说： 06:00 PM
-Step 1. Is to work out how much money you will need
-You do this by filling in the spreadsheet that I showed earlier. This is available on Moodle.
-Summary of step 1: how much money do we need to start this business
-Step 2. In your slides you can give a breakdown and say we need $50,000 for marketing, $250,000 for wages etc (you can insert a table). I have just made these numbers up. You guys will need to take a guess or research
-Step 3. Is to put the total of the costs in the slides e.g. It’s going to cost us $50,000 to start this business.
-Since we are students we don’t have the savings we are going to get investors to help us launch this product
-Since we need $50,000 we will ask for $50,000
-dont look at the numbers above I have made them up
-Now I am going to say hey I am willing to give you X% for $50,000
-Lets just say that it’s 5% that you’re willing to give away
-If 5% = $50,000
-then 100% = $1m
-Because 1% = $10,000
-and then you times $10,000 by 100
-
-
-Table Data
-[
- {"key":1, "name":"users", "2018-1": xxx,"2018-2":xxx,"2018-3":xxx" ...}
- {"key":2, "name":"arpu", "2018-1": xxx,"2018-2":xxx,"2018-3":xxx" ...}
-]
-
-
-[
-   {"key":3,"attr":"attr_one","Jan":342,"Feb":0,"Mar":0,"Apr":0,"May":342,"Jun":0,"Jul":372,"Aug":0,"Sep":12,"Oct":7,"Nov":32,"Dec":87},
-]
-
-
-```
-
 ```json
 //直角坐标系
 grid:{
@@ -570,14 +407,6 @@ tooltip: {
   
 },
 ```
-
-##### portfolio
-
-+ get all [查所有]
-+ get [查单个]
-+ delete [删单个]
-+ post [新建单个]
-+ post/put [改名]
 
 ## CSS
 
@@ -717,6 +546,38 @@ console.log(error);
 });
 ```
 
+## JavaScript
+
+##### 对象循环
+
+```
+
+```
+
+
+
+## React
+
+##### 渲染
+
+```jsx
+//首次加载先从上往下执行，遇到useEffect跳过
+//按顺序运行useEffect，运行完刷新一次
+//state变化刷新一次
+```
+
+
+
+
+
+## AntD Pro
+
+
+
+
+
+
+
 
 
 ## Questions
@@ -754,7 +615,7 @@ history.push("/modifyPSW");
 > routes理解？
 
 ```jsx
-//config.js
+//config.js调试
 ```
 
 
@@ -780,6 +641,45 @@ history.push("/modifyPSW");
 > model里的代码是前人自己写的css布局的的
 
 ```jsx
-//content, 自己写
+//content部分自己写
+```
+
+
+
+
+
+##### Week2-day4
+
+> ::before理解？
+>
+> 点击后加一个before元素表示被激活
+>
+> 是通过getElements去设定style.before, 还是通过判断新加一个classname
+
+```jsx
+//一般通过classname去判断
+//：before比div简单
+```
+
+> antdPro学习路线/先后顺序？
+>
+> 重要程度 a- b- c-
+>
+> umi	
+>
+> dva [redux plus]	
+>
+> webpack	
+>
+> proxy	
+>
+> less	
+>
+> Axios	
+
+![image-20211111171516010](/Users/xufei/Library/Application Support/typora-user-images/image-20211111171516010.png)
+
+```jsx
+//
 ```
 
