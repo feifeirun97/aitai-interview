@@ -33,7 +33,6 @@ function App() {
                 borderRadius:'0.5rem',
                 display:'flex',
                 flexDirection:'column',
-
               }}
             >
 

@@ -582,7 +582,7 @@ console.log(error);
 
 
 
-## AntD Pro
+
 
 
 
@@ -689,9 +689,16 @@ history.push("/modifyPSW");
 >
 > umi	
 
+```jsx
+//优先级向下
+//webpack  less,proxy都是webpack里去配置
+//umi			 一些封装
+//dva;less;axios
+```
+
 ![image-20211111171516010](/Users/xufei/Library/Application Support/typora-user-images/image-20211111171516010.png)
 
-```jsx
-//
-```
+# AntD Pro
+
+#### dva
 

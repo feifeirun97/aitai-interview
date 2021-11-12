@@ -26,14 +26,21 @@ export default function ChartAndTableUnit() {
     useEffect(() => {
         console.log(dimension)
     }, [dimension])
+    
+    const urlList = {
+        arpuGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_user_arpu_doc',
+        arpuPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_user_arpu',
+        topnAmtGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_topn_amt_doc',
+        topnAmtPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_topn_amt'
 
+    }
 
     useEffect(() => {
 
         let formdata = new FormData()
         formdata.append('proj_id', 'gc_dxm')
         //先get确定下一步post的formdata内容
-        axios.get('http://192.168.8.165:5020/service-itdd-get/get_drive_user_arpu_doc')
+        axios.get(urlList.arpuGet)
             .then(res => {
                 //dimension空就获取display中第一个的数据Y
                 //dimension不空就获取dimension
@@ -44,9 +51,10 @@ export default function ChartAndTableUnit() {
                     setDisplay(res.data.content.display.period)
                 }
                 //post请求
-                axios.post('http://192.168.8.165:5020/service-itdd-post/get_drive_user_arpu', formdata)
+                axios.post(urlList.arpuPost, formdata)
                     .then(res => {
                         setData(res.data.content)
+                        // console.log(res)
                     })
             })
             .catch(err => console.log(err))
@@ -64,7 +72,7 @@ export default function ChartAndTableUnit() {
                         dataSwitch === 1
                             ? <>
                                 <CombChart data={data.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} />
-                                <CombTable data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} />
+                                {/* <CombTable data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} /> */}
                             </>
                             : null
                     }
