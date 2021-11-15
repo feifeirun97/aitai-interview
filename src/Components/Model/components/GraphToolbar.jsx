@@ -40,7 +40,7 @@ function GraphToolbar({ setDataSwitch, dimension, setDimension, display }) {
         display.map((dim) => (
           <Dropdown overlay={()=>menu(dim)} trigger={['hover']} key={dim.dim}>
             <Button className='option' style={{ height: '2.5rem', fontSize: '1rem', minWidth: '7rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              {dim.dim}<DownOutlined />
+              {dimension.requestValue?dim.options[dimension.requestValue]:Object.values(dim.options)[0]}<DownOutlined />
             </Button>
 
           </Dropdown>

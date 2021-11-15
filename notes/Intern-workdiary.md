@@ -709,9 +709,18 @@ history.push("/modifyPSW");
 //运行useEffect异步函数
 ```
 
+> Cookie，Session，LocalStorage
+>
+> 储存在哪
 
+```jsx
+//打开调试工具[Network->Fetch/XHR->Preview]
+//登陆后后端返回一系列的参数
+//需要手动的把数据挑选出来，按需存进localStorage，Cookie
+//token可以理解为session
+```
 
-
+![image-20211115220819263](/Users/xufei/Library/Application Support/typora-user-images/image-20211115220819263.png)
 
 
 
@@ -727,5 +736,5 @@ history.push("/modifyPSW");
 
 
 
-
+![image-20211115220140546](/Users/xufei/Library/Application Support/typora-user-images/image-20211115220140546.png)
 

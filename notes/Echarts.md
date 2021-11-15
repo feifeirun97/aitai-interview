@@ -705,8 +705,4 @@ export default ComboChart;
 
 ## 成功
 
-1
-
-2 isnew
-
-3 topnAmount
+dim.options

@@ -32,7 +32,22 @@ export default function ChartAndTableUnit() {
         arpuGet: 'http://192.168.8.165:5020/service-itdd-get/get_drive_user_arpu_doc',
         arpuPost: 'http://192.168.8.165:5020/service-itdd-post/get_drive_user_arpu',
         topnAmtGet: 'http://192.168.8.165:5020/service-itdd-get/get_drive_topn_amt_doc',
-        topnAmtPost: 'http://192.168.8.165:5020/service-itdd-post/get_drive_topn_amt'
+        topnAmtPost: 'http://192.168.8.165:5020/service-itdd-post/get_drive_topn_amt',
+        isNewGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_is_new_doc',
+        isNewPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_is_new',
+        topnArpuGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_topn_arpu_doc',
+        topnArpuPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_topn_arpu',
+        fpYearGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_fp_year_doc', //
+        fpYearPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_fp_year', //
+        orderDurGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_order_dur_doc',
+        orderDurPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_order_dur',
+        mrrNewGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_is_new_doc',
+        mrrNewPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_is_new',
+        mrrUserDurGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_user_dur_doc',
+        mrrUserDurPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_user_dur',
+        mrrAliveGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_is_alive_doc',
+        mrrAlivePost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_is_alive',
+
 
     }
 
@@ -41,7 +56,7 @@ export default function ChartAndTableUnit() {
         let formdata = new FormData()
         formdata.append('proj_id', 'gc_dxm')
         //先get确定下一步post的formdata内容
-        axios.get(urlList.topnAmtGet)
+        axios.get(urlList.mrrAliveGet)
             .then(res => {
                 //先获取display列表
                 console.log('display列表：', res.data.content.display)
@@ -57,13 +72,13 @@ export default function ChartAndTableUnit() {
                     let requestValue = Object.keys(res.data.content.display[0].options)[0]
                     console.log('无dimension，获取首次display第一个默认纬度参数', [requestKey, requestValue])
                     formdata.append(requestKey, requestValue)
-                    // setDimension({"requestKey":requestKey, "requestValue":requestValue})
+                    setDimension({"requestKey":requestKey, "requestValue":requestValue})
                     setDisplay(res.data.content.display)
                 }
 
 
                 //post请求
-                axios.post(urlList.topnAmtPost, formdata)
+                axios.post(urlList.mrrAlivePost, formdata)
                     .then(res => {
                         setData(res.data.content)
                         console.log('Post请求数据', res.data.content)
