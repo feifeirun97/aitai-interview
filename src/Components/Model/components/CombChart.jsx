@@ -5,8 +5,8 @@ import * as echarts from 'echarts';
 
 
 const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartActive }) => {
-  console.log('data',data)
-  // console.log(chartActive)
+  console.log('chartData',data)
+ 
   useEffect(() => {
 
     let myChart = echarts.init(document.getElementById('main'));
@@ -23,10 +23,15 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
             color: '#fff'
           }
         },
-        position: function (point, params, dom, rect, size) {
-          // 上部
-          return [point[0] - 65, point[1] - 220];
-        },
+        position:
+
+            function (pos, params, dom, rect, size) {
+                // tooltip will be fixed on the right if mouse hovering on the left,
+                // and on the left if hovering on the right.
+                var obj = { top: 60 };
+                obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
+                return obj;
+            },
         transitionDuration: 1.2 //跟随鼠标延迟
       },
       toolbox: {
@@ -37,11 +42,14 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
           saveAsImage: { show: true }
         }
       },
-      dataset: Object.keys(data).map(s => (
+      dataset: [
         {
-          source: data[s]
-        }
-      )),
+          source: data.bar_data
+        },
+        {
+          source: data.line_data
+        },
+      ],
       grid: {
         left: '3%',
         right: '5%',
@@ -57,55 +65,49 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
       yAxis: [
         {
           type: 'value',
-          name: 'users',
+          // name: 'users',
           axisLabel: {
             formatter: function (value) {
               if (value === 0) { return 0 }
-              return value / 1000 + 'k'
+              if (value > 1000000){
+                return value / 1000000 + 'M'
+              }
+              else if (value > 1000){
+                return value / 1000 + 'k'
+              }
+        
+              return value
             }
           }
         },
         {
           type: 'value',
-          name: 'arpu',
-
+          // name: 'arpu',
           axisLabel: {
-            formatter: '{value}'
+            formatter: function (value) {
+              if (value === 0) { return 0 }
+              if (value > 1000000){
+                return value / 1000000 + 'M'
+              }
+              else if (value > 1000){
+                return value / 1000 + 'k'
+              }
+        
+              return value
+            }
           }
         }
       ],
-      // series: [
-      //   { type: 'bar', stack: 'same', yAxisIndex: 0, emphasis: { focus: 'series' }, datasetIndex: 0 },
-      //   {
-      //     type: 'line',
-      //     yAxisIndex: 1,
-      //     symbol: "circle",
-      //     datasetIndex: 1,
-      //     emphasis: { focus: 'series' },
-      //     lineStyle: { width: 3 },
-      //     symbolSize: (val, params) => {
-
-      //       if (chartActive >= 0) {
-      //         if (params.dataIndex === chartActive) { return data.length < 8 ? 20 : 12 }
-      //         if (params.dataIndex === chartActive - 1) { return data.length < 8 ? 12 : 7 }
-      //         if (params.dataIndex === chartActive + 1) { return data.length < 8 ? 12 : 7 }
-      //       }
-      //       return 4
-      //     }
-      //   }
-      // ],
-
       series: (function () {
 
-        let barSeries = data[Object.keys(data)[0]][0].map(s => ({
+        let barSeries = data.bar_data[0].map(s => ({
           type: 'bar',
           stack: 'same',
           datasetIndex: 0,
           // emphasis: { focus: 'series' },
         }))
 
-        let lineSeries = data[Object.keys(data)[1]][0].map(s => ({
-          id: 'aaa',
+        let lineSeries = data.line_data[0].map(s => ({
           type: 'line',
           datasetIndex: 1,
           // emphasis: { focus: 'series' },
@@ -123,17 +125,20 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
           }
         
         }))
+
         barSeries.shift()
         lineSeries.shift()
-        return barSeries.concat(lineSeries)
+        let a =barSeries.concat(lineSeries)
+        console.log('series:',a)
+        return a
 
       })()
-    });
+    },true); //legend变化不更新，必须加true
 
 
     myChart.on('click', function (e) {
       //先把之前的放大状态清空
-      console.log(e)
+      // console.log(e)
       setChartActive('')
       setTableActive(e.data[0])
       myChart.setOption({

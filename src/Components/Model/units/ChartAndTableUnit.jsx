@@ -12,8 +12,8 @@ export default function ChartAndTableUnit() {
     const [tableActive, setTableActive] = useState('')
     const [chartActive, setChartActive] = useState('')
     const [dataSwitch, setDataSwitch] = useState(1)
-    //年月纬度展示
-    const [dimension, setDimension] = useState('')
+    //dimension是一个{‘requestKey’:'period','requestValue':'Y'}字典
+    const [dimension, setDimension] = useState({})
     //展示内容
     const [display, setDisplay] = useState([])
     const [data, setData] = useState('')
@@ -24,14 +24,15 @@ export default function ChartAndTableUnit() {
     // }, [dataSwitch])
 
     useEffect(() => {
-        console.log(dimension)
+        //
+        console.log('纬度改变：', dimension)
     }, [dimension])
-    
+
     const urlList = {
-        arpuGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_user_arpu_doc',
-        arpuPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_user_arpu',
-        topnAmtGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_topn_amt_doc',
-        topnAmtPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_topn_amt'
+        arpuGet: 'http://192.168.8.165:5020/service-itdd-get/get_drive_user_arpu_doc',
+        arpuPost: 'http://192.168.8.165:5020/service-itdd-post/get_drive_user_arpu',
+        topnAmtGet: 'http://192.168.8.165:5020/service-itdd-get/get_drive_topn_amt_doc',
+        topnAmtPost: 'http://192.168.8.165:5020/service-itdd-post/get_drive_topn_amt'
 
     }
 
@@ -40,59 +41,47 @@ export default function ChartAndTableUnit() {
         let formdata = new FormData()
         formdata.append('proj_id', 'gc_dxm')
         //先get确定下一步post的formdata内容
-        axios.get(urlList.arpuGet)
+        axios.get(urlList.topnAmtGet)
             .then(res => {
-                //dimension空就获取display中第一个的数据Y
-                //dimension不空就获取dimension
-                if (dimension) {
-                    formdata.append(Object.keys(res.data.content.request)[1], dimension)
+                //先获取display列表
+                console.log('display列表：', res.data.content.display)
+                setDisplay(res.data.content.display)
+
+                //dimension空就获取display中第一个的数据Y发请求
+                //dimension不空就获取dimension发请求
+                if (Object.keys(dimension).length) {
+                    formdata.append(dimension.requestKey, dimension.requestValue)
                 } else {
-                    formdata.append(Object.keys(res.data.content.request)[1], Object.keys(res.data.content.display.period)[0])
-                    setDisplay(res.data.content.display.period)
+                    //第一次请求即吧display,dimension设置好
+                    let requestKey = res.data.content.display[0].dim
+                    let requestValue = Object.keys(res.data.content.display[0].options)[0]
+                    console.log('无dimension，获取首次display第一个默认纬度参数', [requestKey, requestValue])
+                    formdata.append(requestKey, requestValue)
+                    // setDimension({"requestKey":requestKey, "requestValue":requestValue})
+                    setDisplay(res.data.content.display)
                 }
+
+
                 //post请求
-                axios.post(urlList.arpuPost, formdata)
+                axios.post(urlList.topnAmtPost, formdata)
                     .then(res => {
                         setData(res.data.content)
-                        // console.log(res)
+                        console.log('Post请求数据', res.data.content)
                     })
             })
             .catch(err => console.log(err))
     }, [dimension])
-
     //加一个空状态，等到data获取到才显示
     return (
-        <>
-
+        <>  
+            <GraphToolbar setDataSwitch={setDataSwitch} dimension={dimension} setDimension={setDimension} display={display} />
             {data
                 ? <>
-                    <GraphToolbar setDataSwitch={setDataSwitch} dimension={dimension} setDimension={setDimension} display={display}/>
-
-                    {
-                        dataSwitch === 1
-                            ? <>
-                                <CombChart data={data.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} />
-                                <CombTable data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} />
-                            </>
-                            : null
-                    }
-
-                    {
-                        dataSwitch === 2 || dataSwitch === 3
-                            ? <>
-                                yes
-                            </>
-                            : null
-                    }
+                    <CombChart data={data.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} />
+                    {/* <CombTable data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} /> */}
                 </>
-                : <Empty />
-
-
-
-
+                : <Empty description='waiting for data' />
             }
-
-
         </>
     )
 }
