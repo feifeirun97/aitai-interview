@@ -72,7 +72,7 @@ export default function ChartAndTableUnit() {
                         dataSwitch === 1
                             ? <>
                                 <CombChart data={data.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} />
-                                {/* <CombTable data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} /> */}
+                                <CombTable data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} />
                             </>
                             : null
                     }
