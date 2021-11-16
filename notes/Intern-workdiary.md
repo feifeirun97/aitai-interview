@@ -738,3 +738,17 @@ history.push("/modifyPSW");
 
 ![image-20211115220140546](/Users/xufei/Library/Application Support/typora-user-images/image-20211115220140546.png)
 
+
+
+
+
+Math.js
+
+```
+//toPercenr转%
+//formatNumber金额序列化+转万元
+//formatNumber1金额序列化
+//toWan金额序列化+万元+¥
+```
+
+![image-20211116184709854](/Users/xufei/Library/Application Support/typora-user-images/image-20211116184709854.png)
