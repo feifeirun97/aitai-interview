@@ -660,7 +660,7 @@ history.push("/modifyPSW");
 
 
 
-##### Week2-day4
+##### Week2-day5
 
 > ::before理解？
 >
@@ -696,9 +696,59 @@ history.push("/modifyPSW");
 //dva;less;axios
 ```
 
-![image-20211111171516010](/Users/xufei/Library/Application Support/typora-user-images/image-20211111171516010.png)
+
+
+##### Week3-day1
+
+> 渲染顺序
+>
+> UseEffect中的异步函数运行顺序？
+
+```jsx
+//从上而下执行同步代码，包括了子组件渲染
+//运行useEffect异步函数
+```
+
+> Cookie，Session，LocalStorage
+>
+> 储存在哪
+
+```jsx
+//打开调试工具[Network->Fetch/XHR->Preview]
+//登陆后后端返回一系列的参数
+//需要手动的把数据挑选出来，按需存进localStorage，Cookie
+//token可以理解为session
+```
+
+![image-20211115220819263](/Users/xufei/Library/Application Support/typora-user-images/image-20211115220819263.png)
+
+
+
+
 
 # AntD Pro
 
 #### dva
 
+
+
+
+
+
+
+![image-20211115220140546](/Users/xufei/Library/Application Support/typora-user-images/image-20211115220140546.png)
+
+
+
+
+
+Math.js
+
+```
+//toPercenr转%
+//formatNumber金额序列化+转万元
+//formatNumber1金额序列化
+//toWan金额序列化+万元+¥
+```
+
+![image-20211116184709854](/Users/xufei/Library/Application Support/typora-user-images/image-20211116184709854.png)

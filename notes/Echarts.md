@@ -689,4 +689,20 @@ export default ComboChart;
         // }
 ```
 
-![image-20211112221516262](https://i.loli.net/2021/11/12/WN25x3BbItoEugd.png)
+## 细节
+
++ Setoption(option, **true**).
+
+  当option变化时清除之前那个图，如果不加true，纬度切换时会出现legend变化不更新问题
+
++ Chart .on
+
+  通过id和name锁定，必须唯一
+
+
+
+
+
+## 成功
+
+dim.options

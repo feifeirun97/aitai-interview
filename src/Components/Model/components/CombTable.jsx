@@ -1,23 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 
 
 
 
 const CombTable = ({ data, tableActive, setTableActive, setChartActive }) => {
-    const columns = [{ "title": "", "width": 100, "dataIndex": "attr", "key": "attr", "fixed": "left" },]
+    const [columns, setColumns] = useState([{ "title": "", "width": 150, "dataIndex": "attr", "key": "attr", "fixed": "left" },])
     // console.log(data, columns)
 
+    useEffect(()=>{
+        console.log('tavle  data:',data)
+        if (!data) return;
 
-
-    for (const i in data[0]) {
-        if (i !== 'key' & i !== 'attr') {
-            let currentObj = { "title": i, "width": 100, "dataIndex": i, "key": i }
-            if (!(currentObj in columns)) {
-                columns.push(currentObj)
+        let temp = [...columns]
+        for (const i in data[0]) {
+            if (i !== 'key' & i !== 'attr') {
+                let currentObj = { "title": i, "width": 100, "dataIndex": i, "key": i }
+                if (!(currentObj in columns)) {
+                    temp.push(currentObj)
+                }
             }
         }
-    }
+        setColumns(temp)
+    },[data])
 
     useEffect(() => {
         if (tableActive) {
@@ -67,6 +72,7 @@ const CombTable = ({ data, tableActive, setTableActive, setChartActive }) => {
                 columns={columns}
                 scroll={{ x: 100 }}
                 pagination={false}
+                // loading={data?false:true}
                 onRow={(record, index) => {
                     return {
                         onClick: event => {
