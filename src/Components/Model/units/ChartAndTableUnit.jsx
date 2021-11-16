@@ -63,7 +63,7 @@ export default function ChartAndTableUnit() {
         let formdata = new FormData()
         formdata.append('proj_id', 'gc_dxm')
         //先get确定下一步post的formdata内容
-        axios.get(urlList.mrrTopnGet)
+        axios.get(urlList.mrrUserDurGet)
             .then(res => {
                 //先获取display列表
                 
@@ -87,7 +87,7 @@ export default function ChartAndTableUnit() {
                     return 
                 }
                 //post请求
-                axios.post(urlList.mrrTopnPost, formdata)
+                axios.post(urlList.mrrUserDurPost, formdata)
                     .then(res => {
                         setData(res.data.content)
                         console.log('Post请求数据', res.data.content)
@@ -101,7 +101,7 @@ export default function ChartAndTableUnit() {
         <>  
             <GraphToolbar setDataSwitch={setDataSwitch} dimension={dimension} setDimension={setDimension} display={display} />
             <CombChart data={data.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} />
-            <CombTable data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} />
+            {/* <CombTable data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} /> */}
         </>
     )
 }

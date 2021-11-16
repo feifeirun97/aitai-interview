@@ -25,6 +25,10 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
               color: '#fff'
             }
           },
+          formatter:(params,ticket,callback)=>{
+            console.log('params',params.encode);
+            console.log('t',ticket)
+          },
           position:
   
             function (pos, params, dom, rect, size) {

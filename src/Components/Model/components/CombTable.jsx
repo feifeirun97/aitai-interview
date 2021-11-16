@@ -1,28 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
-
-
-
+import { keepTwoDecimal, toWan, formatNumber1,formatNumber } from '../utils/math'
 
 const CombTable = ({ data, tableActive, setTableActive, setChartActive }) => {
-    const [columns, setColumns] = useState([{ "title": "", "width": 150, "dataIndex": "attr", "key": "attr", "fixed": "left" },])
+    const [columns, setColumns] = useState([])
     // console.log(data, columns)
 
-    useEffect(()=>{
-        console.log('tavle  data:',data)
+    useEffect(() => {
+
         if (!data) return;
 
-        let temp = [...columns]
+        let temp = [{ title: "", width: 150, dataIndex: "attr", key: "attr", fixed: "left" },]
         for (const i in data[0]) {
-            if (i !== 'key' & i !== 'attr') {
-                let currentObj = { "title": i, "width": 100, "dataIndex": i, "key": i }
+            if (i !== 'key' & i !== 'attr' & i !== 'value_type') {
+                let currentObj = {
+                    title: i,
+                    width: 100,
+                    dataIndex: i,
+                    key: i,
+                    render: (text, record) => {
+                        let decimal = keepTwoDecimal(text)
+                        return record.value_type === 'amt' ? `${decimal}金额` : record.value_type === 'cnt' ? `${decimal}数量` :`${decimal}%`
+                    }
+                }
                 if (!(currentObj in columns)) {
+
                     temp.push(currentObj)
                 }
             }
         }
+
+
         setColumns(temp)
-    },[data])
+    }, [data])
 
     useEffect(() => {
         if (tableActive) {
@@ -65,6 +75,7 @@ const CombTable = ({ data, tableActive, setTableActive, setChartActive }) => {
     }, [tableActive])
 
     return (
+
         <div className='combTable'>
             <Table
                 size='small'
@@ -87,7 +98,7 @@ const CombTable = ({ data, tableActive, setTableActive, setChartActive }) => {
                                 if (bodyCells[j] === event.target) {
                                     setTableActive(thead[j].innerText)
                                     //行标题index为0，故返回-1
-                                    setChartActive(j-1)
+                                    setChartActive(j - 1)
                                 }
                             }
                         },
@@ -95,19 +106,19 @@ const CombTable = ({ data, tableActive, setTableActive, setChartActive }) => {
                         onMouseLeave: event => { },
                     };
                 }}
-               onHeaderRow={(record, index) => {
-                return {
-                    onClick: event => {
-                        setTableActive(event.target.innerText)
-                    },
-                    onMouseEnter: event => { }, // 鼠标移入行
-                    onMouseLeave: event => { },
-                };
-            }}
+                onHeaderRow={(record, index) => {
+                    return {
+                        onClick: event => {
+                            setTableActive(event.target.innerText)
+                        },
+                        onMouseEnter: event => { }, // 鼠标移入行
+                        onMouseLeave: event => { },
+                    };
+                }}
 
             ></Table>
-            {/* <Table dataSource={data} columns={col} scroll={{ x: 100 }} pagination={false}></Table> */}
-        </div>
+            {}
+       </div>
     )
 
 };
