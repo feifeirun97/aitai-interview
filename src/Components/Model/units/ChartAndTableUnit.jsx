@@ -5,7 +5,7 @@ import GraphToolbar from '../components/GraphToolbar'
 import axios from 'axios'
 import { Button } from 'antd'
 import { Empty } from 'antd';
-
+import TableToolbar from '../components/TableToolBar'
 
 export default function ChartAndTableUnit() {
     //这两个都是选中的标题，如2018Q1
@@ -17,6 +17,8 @@ export default function ChartAndTableUnit() {
     //展示内容
     const [display, setDisplay] = useState([])
     const [data, setData] = useState('')
+    //Table tool bar
+    const [quantity, SetQuantity] = useState('')
 
 
     // useEffect(() => {
@@ -27,6 +29,13 @@ export default function ChartAndTableUnit() {
         //
         console.log('纬度改变：', dimension.requestValue)
     }, [dimension.requestValue])
+
+    useEffect(() => {
+        if (!quantity){
+            SetQuantity('Raw')
+        }
+        console.log('单位改变：', quantity)
+    }, [quantity])
 
     const urlList = {
         arpuGet: 'http://192.168.8.165:5020/service-itdd-get/get_drive_user_arpu_doc',
@@ -54,8 +63,9 @@ export default function ChartAndTableUnit() {
         mrrSnumGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_snum_doc',
         mrrSnumPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_snum',
         mrrConvertGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_convert_doc',
-        mrrConvertPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_convert'
-
+        mrrConvertPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_convert',
+        netRrGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_net_rr_doc',
+        netRrPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_net_rr',
     }
 
     useEffect(() => {
@@ -63,7 +73,7 @@ export default function ChartAndTableUnit() {
         let formdata = new FormData()
         formdata.append('proj_id', 'gc_dxm')
         //先get确定下一步post的formdata内容
-        axios.get(urlList.mrrUserDurGet)
+        axios.get(urlList.netRrGet)
             .then(res => {
                 //先获取display列表
                 
@@ -87,7 +97,7 @@ export default function ChartAndTableUnit() {
                     return 
                 }
                 //post请求
-                axios.post(urlList.mrrUserDurPost, formdata)
+                axios.post(urlList.netRrPost, formdata)
                     .then(res => {
                         setData(res.data.content)
                         console.log('Post请求数据', res.data.content)
@@ -101,7 +111,8 @@ export default function ChartAndTableUnit() {
         <>  
             <GraphToolbar setDataSwitch={setDataSwitch} dimension={dimension} setDimension={setDimension} display={display} />
             <CombChart data={data.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} />
-            {/* <CombTable data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} /> */}
+            <TableToolbar quantity={quantity} setQuantity={SetQuantity}/>
+            <CombTable quantity={quantity} data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} />
         </>
     )
 }

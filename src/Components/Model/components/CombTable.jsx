@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
-import { keepTwoDecimal, toWan, formatNumber1,formatNumber } from '../utils/math'
+import { keepTwoDecimal, toWan, toDollar } from '../utils/math'
 
-const CombTable = ({ data, tableActive, setTableActive, setChartActive }) => {
+const CombTable = ({ quantity, data, tableActive, setTableActive, setChartActive }) => {
     const [columns, setColumns] = useState([])
     // console.log(data, columns)
 
@@ -10,17 +10,31 @@ const CombTable = ({ data, tableActive, setTableActive, setChartActive }) => {
 
         if (!data) return;
 
-        let temp = [{ title: "", width: 150, dataIndex: "attr", key: "attr", fixed: "left" },]
+        let temp = [{
+            title: "",
+            width: 150,
+            dataIndex: "attr",
+            key: "attr",
+            fixed: "left",
+            render: text => <div style={{ fontSize: '14px', fontWeight: '500', padding: '0px' }}>{text}</div>
+        },]
         for (const i in data[0]) {
             if (i !== 'key' & i !== 'attr' & i !== 'value_type') {
                 let currentObj = {
-                    title: i,
-                    width: 100,
+                    title: <div style={{ fontSize: '12px', fontWeight: '500', }}>{i}</div>,
+                    width: 120,
                     dataIndex: i,
                     key: i,
                     render: (text, record) => {
                         let decimal = keepTwoDecimal(text)
-                        return record.value_type === 'amt' ? `${decimal}金额` : record.value_type === 'cnt' ? `${decimal}数量` :`${decimal}%`
+                        let val
+                        if (record.value_type === 'cnt') val=decimal
+                        if (record.value_type === 'per') val=`${decimal}%`
+                        if (record.value_type === 'amt') {
+                            val =toDollar(decimal,quantity)
+                        }
+
+                        return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'#7171A6'}}>{val}</div>
                     }
                 }
                 if (!(currentObj in columns)) {
@@ -32,7 +46,7 @@ const CombTable = ({ data, tableActive, setTableActive, setChartActive }) => {
 
 
         setColumns(temp)
-    }, [data])
+    }, [data,quantity])
 
     useEffect(() => {
         if (tableActive) {
@@ -117,8 +131,8 @@ const CombTable = ({ data, tableActive, setTableActive, setChartActive }) => {
                 }}
 
             ></Table>
-            {}
-       </div>
+            { }
+        </div>
     )
 
 };

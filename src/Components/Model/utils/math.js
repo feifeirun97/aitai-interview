@@ -26,3 +26,23 @@ export const toWan = (value) => {
   if (isNaN(Number(value))) return '-'
   return '¥' + numeral(Number(value / 10000).toFixed(2)).format('0,0.00') + '万'
 }
+
+export const toDollar = (value, quantity) => {
+ 
+
+  let q = quantity === "Raw" ? 1 : quantity === "Thousand" ? 1000 : quantity === "Million" ? 1000000 : 1000000000
+  let num = Number(value)/q
+
+  if (isNaN(num)) return '-'
+
+  if (num === 0) return '$0'
+  // console.log(quantity)
+  if (Math.abs(num)<0.1) return 'NaN'
+
+  if (q===1000) return numeral(num).format('$0,0.0')+'K'
+  else if (q===1000000) return numeral(num).format('$0,0.0')+'M'
+  else if (q===1000000000) return numeral(num).format('$0,0.0')+'B'
+  return numeral(num).format('$0,0.0')
+}
+
+
