@@ -28,13 +28,16 @@ const CombTable = ({ quantity, data, tableActive, setTableActive, setChartActive
                     render: (text, record) => {
                         let decimal = keepTwoDecimal(text)
                         let val
-                        if (record.value_type === 'cnt') val=decimal
-                        if (record.value_type === 'per') val=`${decimal}%`
+                        if (record.value_type === 'cnt') return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'#33334F',fontFamily:"Inter"}}>{decimal}</div>
+                        if (record.value_type === 'per') return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'#33334F',fontFamily:"Inter"}}>{decimal}%</div>
                         if (record.value_type === 'amt') {
                             val =toDollar(decimal,quantity)
+                            if (decimal>0) return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'red'}}>{val}</div>
+                            if (decimal<0) return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'green'}}>{val}</div>
+                            if (decimal===0) return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'gray'}}>{val}</div>
                         }
 
-                        return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'#7171A6'}}>{val}</div>
+                        
                     }
                 }
                 if (!(currentObj in columns)) {
