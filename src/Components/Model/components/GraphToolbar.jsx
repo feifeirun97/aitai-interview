@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Dropdown, Menu } from 'antd';
-
 import './style.css'
-import Axios from 'axios'
 import { DownOutlined } from '@ant-design/icons';
-import { compose } from 'redux';
 
 
 
@@ -12,7 +9,6 @@ function GraphToolbar({ setDataSwitch, dimension, setDimension, display }) {
 
   function handleMenuClick(e,dim) {
     //dimension是一个{‘requestKey’,'requestValue'}字典
-    
     //e.key包含了key和value
     let kv = e.key.split(',')
     let temp = dimension
@@ -39,26 +35,19 @@ function GraphToolbar({ setDataSwitch, dimension, setDimension, display }) {
   };
 
 
-  const valueSwitch = (val) => {
-    setDataSwitch(val)
-  };
-
   return (
 
     <div className="graphToolbar" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-
       {
         display.map((d,index) => (
           <Dropdown overlay={()=>menu(d,index)} trigger={['hover']} key={d.dim}>
-            <Button className='option' style={{ height: '2.5rem', fontSize: '1rem', minWidth: '7rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Button className='option' style={{ height: '2rem', fontSize: '14px', minWidth: '7rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               {dimension[index].displayName? dimension[index].displayName:'rea'}<DownOutlined />
             </Button>
 
           </Dropdown>
         ))
       }
-
-
     </div>
   )
 }

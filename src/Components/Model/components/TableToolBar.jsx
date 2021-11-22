@@ -27,7 +27,7 @@ function TableToolbar({ quantity, setQuantity }) {
       {
 
         <Dropdown overlay={menu} trigger={['hover']} key={quantity}>
-          <Button className='option' style={{ height: '2.5rem', fontSize: '1rem', minWidth: '7rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Button className='option' style={{ height: '2rem', fontSize: '14px', minWidth: '7rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             {quantity ? quantity:'Raw'}<DownOutlined />
           </Button>
 

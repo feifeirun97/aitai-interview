@@ -15,10 +15,3 @@
   width: 10%;
   background-color: #3573db;
 }
-
-
-@media screen and (max-width: 1000px) {
-  .content {   
-    padding: 2vh 2vh 1vh 2vh
-  }
-}

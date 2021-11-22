@@ -4,12 +4,12 @@ import * as echarts from 'echarts';
 // 基于准备好的dom，初始化echarts实例
 
 
-const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartActive }) => {
+const ComboChart = ({ index,data, chartActive, setTableActive, setChartActive }) => {
   // console.log('chartData',data)
 
   useEffect(() => {
 
-    let myChart = echarts.init(document.getElementById('main'));
+    let myChart = echarts.init(document.getElementById(`main${index}`));
     if (data) {
       myChart.hideLoading();
       myChart.setOption({
@@ -57,9 +57,9 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
           },
         ],
         grid: {
-          left: '10%',
-          right: '10%',
-          bottom: '5%'
+          left: '5%',
+          right: '5%',
+          bottom: '10%'
 
         },
         xAxis: {
@@ -153,6 +153,7 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
         // console.log(e)
         setChartActive('')
         setTableActive(e.data[0])
+        
         myChart.setOption({
           series: [
             {
@@ -181,7 +182,7 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
   }, [chartActive, data])
 
   return (
-    <div id='main' style={{ height: '400px', maxWidth: '1100px' }} ></div>
+    <div id={'main'+index} style={{ height: '400px',width:'100%'}} ></div>
   )
 };
 
