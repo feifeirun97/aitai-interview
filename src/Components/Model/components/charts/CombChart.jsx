@@ -4,7 +4,7 @@ import * as echarts from 'echarts';
 // 基于准备好的dom，初始化echarts实例
 
 
-const ComboChart = ({ index,data, chartActive,onChange }) => {
+const ComboChart = ({ index,data,linkActive,onChange }) => {
   // console.log('chartData',data)
 
   useEffect(() => {
@@ -127,10 +127,10 @@ const ComboChart = ({ index,data, chartActive,onChange }) => {
               lineStyle: { width: 2 },
               symbolSize: (val, params) => {
 
-                if (chartActive >= 0) {
-                  if (params.dataIndex === chartActive) { return data.length < 8 ? 20 : 7}
-                  if (params.dataIndex === chartActive - 1) { return data.length < 8 ? 12 : 5 }
-                  if (params.dataIndex === chartActive + 1) { return data.length < 8 ? 12 : 5 }
+                if (linkActive >= 0) {
+                  if (params.dataIndex === linkActive -1) { return data.length < 8 ? 20 : 7}
+                  if (params.dataIndex === linkActive - 2) { return data.length < 8 ? 12 : 5 }
+                  if (params.dataIndex === linkActive ) { return data.length < 8 ? 12 : 5 }
                 }
                 return 2
               }
@@ -150,8 +150,8 @@ const ComboChart = ({ index,data, chartActive,onChange }) => {
 
       myChart.on('click', function (e) {
         //先把之前的放大状态清空
-        // console.log(e)
-        onChange('',e.data[0])        
+
+        onChange(e.dataIndex+1)        
         myChart.setOption({
           series: [
             {
@@ -177,7 +177,7 @@ const ComboChart = ({ index,data, chartActive,onChange }) => {
       myChart.showLoading();
     }
 
-  }, [chartActive, data])
+  }, [linkActive, data])
 
   return (
     <div id={'main'+index} style={{ height: '400px',width:'100%'}} ></div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import { keepTwoDecimal, formatNumber3, toDollar } from '../utils/math'
 
-const CombTable = ({ quantity, data, tableActive, onChange }) => {
+const CombTable = ({ quantity, data, linkActive, onChange }) => {
     const [columns, setColumns] = useState([])
     // console.log(data, columns)
 
@@ -50,7 +50,7 @@ const CombTable = ({ quantity, data, tableActive, onChange }) => {
     }, [data,quantity])
 
     useEffect(() => {
-        if (tableActive) {
+        if (linkActive) {
             //find the table, thead and tbody
             const table = document.getElementsByClassName('combTable')[0]
             const thead = table.getElementsByClassName('ant-table-thead')[0].getElementsByClassName('ant-table-cell')
@@ -60,7 +60,8 @@ const CombTable = ({ quantity, data, tableActive, onChange }) => {
             //activeIndex work in tbody part
             let activeIndex = -1
             for (let i = 0; i < thead.length; i++) {
-                if (thead[i].innerText === tableActive) {
+                
+                if (i === linkActive) {
                     thead[i].scrollIntoView({
                         behavior: "smooth", block: 'nearest', inline: "center"
                     })
@@ -87,7 +88,7 @@ const CombTable = ({ quantity, data, tableActive, onChange }) => {
                 }
             }
         }
-    }, [tableActive,data])
+    }, [linkActive,data])
 
     return (
 
@@ -113,12 +114,11 @@ const CombTable = ({ quantity, data, tableActive, onChange }) => {
                               for (let j = 0; j < bodyCells.length; j++) {
                                 //点击目标和为cells，遍历得到当前点击值所在的index
                                 if (bodyCells[j] === event.target) {
-                                    //行标题index为0，故返回j-1
-                                    onChange(j - 1,thead[j].innerText)
+                                    onChange(j)
                                 }
                                 //点击目标和为cells下级的文字，需要设置为其父元素
                                 if (bodyCells[j] === event.target.parentElement) {
-                                    onChange(j - 1,thead[j].innerText)
+                                    onChange(j)
                                 }
                             }
                         },
@@ -129,7 +129,13 @@ const CombTable = ({ quantity, data, tableActive, onChange }) => {
                 onHeaderRow={(record, index) => {
                     return {
                         onClick: event => {
-                            onChange('',event.target.innerText)
+                            for (let i=1; i<record.length; i++) {
+                                if(event.target.innerText === record[i].dataIndex) {
+                                    onChange(i)
+                                    return 
+                                }
+                            }
+                            // console.log(event,index,record)
                         },
                         onMouseEnter: event => { }, // 鼠标移入行
                         onMouseLeave: event => { },
