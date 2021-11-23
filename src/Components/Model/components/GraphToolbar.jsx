@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Dropdown, Menu } from 'antd';
-
 import './style.css'
-import Axios from 'axios'
 import { DownOutlined } from '@ant-design/icons';
-import { compose } from 'redux';
 
 
 
-function GraphToolbar({ setDataSwitch, dimension, setDimension, display }) {
+function GraphToolbar({ onChange, dimension, display }) {
 
   function handleMenuClick(e,dim) {
     //dimension是一个{‘requestKey’,'requestValue'}字典
-    setDimension({requestKey:dim.dim, requestValue:e.key})
+    //e.key包含了key和value
+    let kv = e.key.split(',')
+    let temp = dimension
+    temp.forEach(t=>{
+      if (t.requestKey === dim.dim) {
+        t.requestValue = kv[0]
+        t.displayName = kv[1]
+        // t.displayName = 
+      }
+    })
+    onChange([...temp])
   }
-  const menu =(dim) => {
+  const menu =(d,index) => {
     // console.log(dimension.requestValue)
     return (
-      <Menu onClick={(e)=>handleMenuClick(e,dim)}>
-        {Object.keys(dim.options).map(s =>
-          <Menu.Item key={s} className={dimension.requestValue=== s ? 'active' : null}>
-            {dim.options[s]}
+      <Menu onClick={(e)=>handleMenuClick(e,d)}>
+        {Object.keys(d.options).map(s =>
+          <Menu.Item key={[s,d.options[s]]} className={dimension[index].requestValue=== s ? 'active' : null}>
+            {d.options[s]}
           </Menu.Item>
         )}
       </Menu>
@@ -28,26 +35,19 @@ function GraphToolbar({ setDataSwitch, dimension, setDimension, display }) {
   };
 
 
-  const valueSwitch = (val) => {
-    setDataSwitch(val)
-  };
-
   return (
 
     <div className="graphToolbar" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-
       {
-        display.map((dim) => (
-          <Dropdown overlay={()=>menu(dim)} trigger={['hover']} key={dim.dim}>
-            <Button className='option' style={{ height: '2.5rem', fontSize: '1rem', minWidth: '7rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              {dimension.requestValue?dim.options[dimension.requestValue]:Object.values(dim.options)[0]}<DownOutlined />
+        display.map((d,index) => (
+          <Dropdown overlay={()=>menu(d,index)} trigger={['hover']} key={d.dim}>
+            <Button className='option' style={{ height: '2rem', fontSize: '14px', minWidth: '7rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              {dimension[index].displayName? dimension[index].displayName:'rea'}<DownOutlined />
             </Button>
 
           </Dropdown>
         ))
       }
-
-
     </div>
   )
 }

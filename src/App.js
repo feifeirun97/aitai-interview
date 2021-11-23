@@ -6,6 +6,7 @@ import { Layout} from 'antd';
 import Model from "./Components/Model/metrics/Index";
 
 import Test from "./Components/Model/units/TestUint"
+import SideMenu from "./Components/Model/components/sideMenu";
 // import Chart from "./Components/Model/components/CombChart"
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -23,19 +24,17 @@ function App() {
           <Avatar style={{ backgroundColor: '#3673db', marginRight: '1vw' }} />
         </Header>
         <Layout>
-          <Sider  width={'10%'} theme='light' style={{height:"90vh",margin:'2vh 0 1vh 0',borderRadius:'0.5rem'}}></Sider>
-          <Layout style={{padding: '2vh 5vh 1vh 10vh'}}>
+          <Sider  width={'10vw'} theme='light' style={{height:"94vh",margin:'1vh 1vw 1vh 0',borderRadius:'0.5rem'}}></Sider>
+          <Layout style={{height:"94vh"}}>
 
             <Content
               style={{
-                background: '#fff',
-                padding: '1vh 2vh',
+                width:'88vw',
                 borderRadius:'0.5rem',
                 display:'flex',
                 flexDirection:'column',
               }}
             >
-
             <Model/>
             {/* <Test /> */}
             </Content>

@@ -722,9 +722,88 @@ history.push("/modifyPSW");
 
 ![image-20211115220819263](/Users/xufei/Library/Application Support/typora-user-images/image-20211115220819263.png)
 
+##### Week3-day5
+
+> less类名会自动加‘-’吗？获取类名
+>
+> less书写格式
+
+```jsx
+//import styles from './style.less';
+//styles等于是变成了一个变量，style.xxx就是去调用
+//与less无关，换成css也行
+```
+
+> @media screen屏幕变化
+
+```jsx
+//可以在js中加一个state，获取window.screen.width
+//宽度小了吧state设置为false
+//通过state来判断需不需要展示该组件
+
+
+//media screen也可以
+```
+
+> Reduce
+
+```jsx
+//数组转对象，累加时用到
+```
+
+> includes字符串判断
+
+```jsx
+//'abcd'.includes('ad')
+```
+
+> includes字符串判断
+
+```jsx
+//'abcd'.includes('ad')   ES7
+```
+
+##### Week4 day2
+
+> 原型
+
+```jsx
+//__proto__、 constructor属性是对象所独有的；
+//prototype属性是函数独有的；
+
+//prototype设置原型方法属性，所有子级都可以使用，类似一块储存空间
+//__proto__可以指向父级存在prototype里的方法
+//constuctor属性获取创造自己的构造函数
+```
+
+![](https://segmentfault.com/img/remote/1460000021232137)
 
 
 
+
+
+
+
+> for in为什么需要object.hasOwnProperty(variable)
+>
+> 如果对象是来自原形链会怎么样？
+
+```jsx
+//for
+```
+
+> 多个回调函数时，以集合形式返回
+
+```jsx
+//onChange={(data1,data2)=> {setDimension(data1); setDataSwitch(data2)}}/
+//和组建内的state区分开来
+```
+
+
+
+两个active合并
+
+scatter加data zoom，， symbolsize根据类型方法不一样，分段
 
 # AntD Pro
 
@@ -738,17 +817,38 @@ history.push("/modifyPSW");
 
 ![image-20211115220140546](/Users/xufei/Library/Application Support/typora-user-images/image-20211115220140546.png)
 
-
-
-
-
-Math.js
+```jsx
+    const urlList = {
+        arpuGet: 'http://192.168.8.165:5020/service-itdd-get/get_drive_user_arpu_doc',
+        arpuPost: 'http://192.168.8.165:5020/service-itdd-post/get_drive_user_arpu',
+        topnAmtGet: 'http://192.168.8.165:5020/service-itdd-get/get_drive_topn_amt_doc',
+        topnAmtPost: 'http://192.168.8.165:5020/service-itdd-post/get_drive_topn_amt',
+        isNewGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_is_new_doc',
+        isNewPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_is_new',
+        topnArpuGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_topn_arpu_doc',
+        topnArpuPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_topn_arpu',
+        fpYearGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_fp_year_doc', //
+        fpYearPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_fp_year', //
+        orderDurGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_order_dur_doc',
+        orderDurPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_order_dur',
+        mrrNewGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_is_new_doc',
+        mrrNewPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_is_new',
+        mrrUserDurGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_user_dur_doc',
+        mrrUserDurPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_user_dur',
+        mrrAliveGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_is_alive_doc',
+        mrrAlivePost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_is_alive',
+        mrrCallBackGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_callback_doc',
+        mrrCallBackPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_callback',
+        mrrTopnGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_topn_doc',
+        mrrTopnPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_topn',
+        mrrSnumGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_snum_doc',
+        mrrSnumPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_snum',
+        mrrConvertGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_convert_doc',
+        mrrConvertPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_convert',
+        netRrGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_net_rr_doc',
+        netRrPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_net_rr',
+    }
 
 ```
-//toPercenr转%
-//formatNumber金额序列化+转万元
-//formatNumber1金额序列化
-//toWan金额序列化+万元+¥
-```
 
-![image-20211116184709854](/Users/xufei/Library/Application Support/typora-user-images/image-20211116184709854.png)
+*dimension*.requestValue=== *s* ? styles.active : null

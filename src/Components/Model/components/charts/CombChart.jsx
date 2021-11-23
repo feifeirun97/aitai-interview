@@ -4,13 +4,13 @@ import * as echarts from 'echarts';
 // 基于准备好的dom，初始化echarts实例
 
 
-const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartActive }) => {
+const ComboChart = ({ index,data, chartActive,onChange }) => {
   // console.log('chartData',data)
 
   useEffect(() => {
 
-    let myChart = echarts.init(document.getElementById('main'));
-    if (data){
+    let myChart = echarts.init(document.getElementById(`main${index}`));
+    if (data) {
       myChart.hideLoading();
       myChart.setOption({
         legend: {},
@@ -25,8 +25,12 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
               color: '#fff'
             }
           },
+          // formatter:(params,ticket,callback)=>{
+          //   console.log('params',params.encode);
+          //   console.log('t',ticket)
+          // },
           position:
-  
+
             function (pos, params, dom, rect, size) {
               // tooltip will be fixed on the right if mouse hovering on the left,
               // and on the left if hovering on the right.
@@ -56,7 +60,7 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
           left: '5%',
           right: '5%',
           bottom: '10%'
-  
+
         },
         xAxis: {
           type: 'category',
@@ -67,37 +71,38 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
         yAxis: [
           {
             type: 'value',
-            // name: 'users',
+
+            
             axisLabel: {
               formatter: function (value) {
-                if (value === 0) { return 0 }
-                if (value >= 1000000) {
+                let val = Math.abs(value)
+                if (val >= 1000000) {
                   return value / 1000000 + 'M'
                 }
-                else if (value >= 1000) {
+                else if (val >= 1000) {
                   return value / 1000 + 'k'
                 }
-  
+
                 return value
               }
-            }
+            },
           },
           {
             type: 'value',
-            // name: 'arpu',
+
             axisLabel: {
               formatter: function (value) {
-                if (value === 0) { return 0 }
-                if (value > 1000000) {
+                let val = Math.abs(value)
+                if (val >= 1000000) {
                   return value / 1000000 + 'M'
                 }
-                else if (value > 1000) {
+                else if (val >= 1000) {
                   return value / 1000 + 'k'
                 }
-  
+
                 return value
               }
-            }
+            },
           }
         ],
         series: (function () {
@@ -110,7 +115,7 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
               // emphasis: { focus: 'series' },
             }))
           }
-  
+
           let lineSeries = []
           if (data.line_data.length !== 0) {
             lineSeries = data.line_data[0].map(s => ({
@@ -119,64 +124,63 @@ const ComboChart = ({ data, tableActive, chartActive, setTableActive, setChartAc
               // emphasis: { focus: 'series' },
               yAxisIndex: 1,
               symbol: 'circle',
-              lineStyle: { width: 3 },
+              lineStyle: { width: 2 },
               symbolSize: (val, params) => {
-  
+
                 if (chartActive >= 0) {
-                  if (params.dataIndex === chartActive) { return data.length < 8 ? 20 : 12 }
-                  if (params.dataIndex === chartActive - 1) { return data.length < 8 ? 12 : 7 }
-                  if (params.dataIndex === chartActive + 1) { return data.length < 8 ? 12 : 7 }
+                  if (params.dataIndex === chartActive) { return data.length < 8 ? 20 : 7}
+                  if (params.dataIndex === chartActive - 1) { return data.length < 8 ? 12 : 5 }
+                  if (params.dataIndex === chartActive + 1) { return data.length < 8 ? 12 : 5 }
                 }
-                return 4
+                return 2
               }
-  
+
             }))
           }
-  
+
           barSeries.shift()
           lineSeries.shift()
           let a = barSeries.concat(lineSeries)
           // console.log('series:', a)
           return a
-  
+
         })()
       }, true); //legend变化不更新，必须加true
-  
-  
+
+
       myChart.on('click', function (e) {
         //先把之前的放大状态清空
         // console.log(e)
-        setChartActive('')
-        setTableActive(e.data[0])
+        onChange('',e.data[0])        
         myChart.setOption({
           series: [
             {
               id: 'aaa',
               symbolSize: (val, params) => {
                 // console.log(params.dataIndex,e.dataIndex)
-  
+
                 if (params.dataIndex === e.dataIndex) { return data.length < 8 ? 20 : 12 }
                 if (params.dataIndex === e.dataIndex - 1) { return data.length < 8 ? 12 : 7 }
                 if (params.dataIndex === e.dataIndex + 1) { return data.length < 8 ? 12 : 7 }
-  
+
                 return 4
               }
             }
           ]
         });
       });
-  
+
       window.onresize = function () {
         myChart.resize();
       }
-    }else{
+    } else {
       myChart.showLoading();
     }
-    
+
   }, [chartActive, data])
 
   return (
-    <div id='main' style={{ height: '400px', maxWidth: '1100px' }} ></div>
+    <div id={'main'+index} style={{ height: '400px',width:'100%'}} ></div>
   )
 };
 
