@@ -5,12 +5,12 @@ import './style.css'
 import { DownOutlined } from '@ant-design/icons';
 
 
-function TableToolbar({ quantity, setQuantity }) {
+function TableToolbar({ quantity, onChange }) {
   const display = ['Raw', 'Thousand', 'Million', 'Billion']
 
   const menu = (
 
-      <Menu onClick={(e) => setQuantity(e.key)}>
+      <Menu onClick={(e) => onChange(e.key)}>
         {display.map(q =>
           <Menu.Item key={q} className={q === quantity ? 'active' : null}>
             {q}

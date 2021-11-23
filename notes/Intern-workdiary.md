@@ -760,10 +760,50 @@ history.push("/modifyPSW");
 > includes字符串判断
 
 ```jsx
-//'abcd'.includes('ad')
+//'abcd'.includes('ad')   ES7
+```
+
+##### Week4 day2
+
+> 原型
+
+```jsx
+//__proto__、 constructor属性是对象所独有的；
+//prototype属性是函数独有的；
+
+//prototype设置原型方法属性，所有子级都可以使用，类似一块储存空间
+//__proto__可以指向父级存在prototype里的方法
+//constuctor属性获取创造自己的构造函数
+```
+
+![](https://segmentfault.com/img/remote/1460000021232137)
+
+
+
+
+
+
+
+> for in为什么需要object.hasOwnProperty(variable)
+>
+> 如果对象是来自原形链会怎么样？
+
+```jsx
+//for
+```
+
+> 多个回调函数时，以集合形式返回
+
+```jsx
+//onChange={(data1,data2)=> {setDimension(data1); setDataSwitch(data2)}}/
+//和组建内的state区分开来
 ```
 
 
+
+两个active合并
+
+scatter加data zoom，， symbolsize根据类型方法不一样，分段
 
 # AntD Pro
 

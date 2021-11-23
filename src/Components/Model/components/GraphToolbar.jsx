@@ -5,7 +5,7 @@ import { DownOutlined } from '@ant-design/icons';
 
 
 
-function GraphToolbar({ setDataSwitch, dimension, setDimension, display }) {
+function GraphToolbar({ onChange, dimension, display }) {
 
   function handleMenuClick(e,dim) {
     //dimension是一个{‘requestKey’,'requestValue'}字典
@@ -19,7 +19,7 @@ function GraphToolbar({ setDataSwitch, dimension, setDimension, display }) {
         // t.displayName = 
       }
     })
-    setDimension([...temp])
+    onChange([...temp])
   }
   const menu =(d,index) => {
     // console.log(dimension.requestValue)

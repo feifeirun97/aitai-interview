@@ -9,10 +9,11 @@ import TableToolbar from '../components/TableToolBar'
 import ScatterChart from '../components/charts/ScatterChart'
 
 
-// const Chart =(index,type,data)=>{
-//     if (type==='scatter') return <ScatterChart index={index} data={data.plt}/>
-//     if (type==='bar_line') return <CombChart index={index} data={data.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} />
-// }
+const Chart = ({index, type, data, tableActive, chartActive, setChartActive, setTableActive}) => {
+    if (type === 'scatter') return <ScatterChart index={index} data={data.plt} />
+    if (type === 'bar_line') return <CombChart index={index} data={data.plt} tableActive={tableActive} chartActive={chartActive} onChange={(data1, data2) => { setChartActive(data1); setTableActive(data2); }} />
+
+}
 
 export default function ChartAndTableUnit({ index, urlValue, type }) {
 
@@ -29,6 +30,12 @@ export default function ChartAndTableUnit({ index, urlValue, type }) {
     const [quantity, SetQuantity] = useState('')
 
 
+    useEffect(()=>{
+        console.log('chartactive,',chartActive)
+    },[chartActive])
+    useEffect(()=>{
+        console.log('tableActive,',tableActive)
+    },[tableActive])
 
     useEffect(() => {
         if (!quantity) {
@@ -68,34 +75,33 @@ export default function ChartAndTableUnit({ index, urlValue, type }) {
         })
         axios.post(urlList.post + urlValue, formdata)
             .then(res => {
+                // console.log('散点图数据',res.data.content.plt.scatter_data)
                 setData(res.data.content)
                 console.log('Post请求数据', res.data.content)
             })
     }, [dimension])
-
-    useEffect(() => {
-        const Chart = () => {
-            if (type === 'scatter') return <ScatterChart index={index} data={data.plt} />
-            if (type === 'bar_line') return <CombChart index={index} data={data.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} />
-        }
-
-    }, [type])
-
-
 
 
     //加一个空状态，等到data获取到才显示
 
     return (
         <div className={'ChartAndTableUnit'}>
-            <GraphToolbar setDataSwitch={setDataSwitch} dimension={dimension} setDimension={setDimension} display={display} />
-            {/* <CombChart index={index} data={data.plt} tableActive={tableActive} chartActive={chartActive} setTableActive={setTableActive} setChartActive={setChartActive} /> */}
-  
+            <GraphToolbar dimension={dimension} display={display} onChange={data1 => setDimension(data1)} />
+            {
+                type === 'scatter' ? 
+                    <ScatterChart index={index} data={data.plt} /> 
+                : type === 'bar_line'? 
+                    <CombChart index={index} data={data.plt} tableActive={tableActive} chartActive={chartActive} onChange={(data1, data2) => { setChartActive(data1); setTableActive(data2); }} />
+                : '不是柱线图，不是散点图'
+            }
+        
+           {/* <Chart index={index} type={type} data={data} tableActive={tableActive} chartActive={chartActive} setChartActive={setChartActive} setTableActive={setTableActive}/>
+            */}
             {
                 data.table
                     ? <>
-                        <TableToolbar quantity={quantity} setQuantity={SetQuantity} />
-                        <CombTable quantity={quantity} data={data.table} tableActive={tableActive} setTableActive={setTableActive} setChartActive={setChartActive} />
+                        <TableToolbar quantity={quantity} onChange={data1 => SetQuantity(data1)} />
+                        <CombTable quantity={quantity} data={data.table} tableActive={tableActive} onChange={(data1, data2) => { if (data1) setChartActive(data1); setTableActive(data2); }} />
                     </>
                     : null
             }

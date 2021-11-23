@@ -36,7 +36,7 @@ function Model() {
     <div >
 
       {/* <Button onClick={() => dim === 'SaaS' ? setDim('Retail') : setDim('SaaS')}>{dim}</Button> */}
-      <SideMenu menuList={menuList} setUrlValueList={setUrlValueList} className='sideMenu' />
+      <SideMenu menuList={menuList} onChange={data1=>setUrlValueList(data1)} className='sideMenu' />
       <div className={'units'}>
         {
           urlValueList.map((unit, index) => (

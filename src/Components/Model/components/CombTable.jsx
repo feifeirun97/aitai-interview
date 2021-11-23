@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import { keepTwoDecimal, formatNumber3, toDollar } from '../utils/math'
 
-const CombTable = ({ quantity, data, tableActive, setTableActive, setChartActive }) => {
+const CombTable = ({ quantity, data, tableActive, onChange }) => {
     const [columns, setColumns] = useState([])
     // console.log(data, columns)
 
@@ -113,16 +113,12 @@ const CombTable = ({ quantity, data, tableActive, setTableActive, setChartActive
                               for (let j = 0; j < bodyCells.length; j++) {
                                 //点击目标和为cells，遍历得到当前点击值所在的index
                                 if (bodyCells[j] === event.target) {
-                                    setTableActive(thead[j].innerText)
-                                    //行标题index为0，故返回-1
-                                    setChartActive(j - 1)
+                                    //行标题index为0，故返回j-1
+                                    onChange(j - 1,thead[j].innerText)
                                 }
                                 //点击目标和为cells下级的文字，需要设置为其父元素
                                 if (bodyCells[j] === event.target.parentElement) {
-                                   
-                                    setTableActive(thead[j].innerText)
-                                    //行标题index为0，故返回-1
-                                    setChartActive(j - 1)
+                                    onChange(j - 1,thead[j].innerText)
                                 }
                             }
                         },
@@ -133,7 +129,7 @@ const CombTable = ({ quantity, data, tableActive, setTableActive, setChartActive
                 onHeaderRow={(record, index) => {
                     return {
                         onClick: event => {
-                            setTableActive(event.target.innerText)
+                            onChange('',event.target.innerText)
                         },
                         onMouseEnter: event => { }, // 鼠标移入行
                         onMouseLeave: event => { },
@@ -141,7 +137,7 @@ const CombTable = ({ quantity, data, tableActive, setTableActive, setChartActive
                 }}
 
             ></Table>
-            { }
+            
         </div>
     )
 

@@ -4,7 +4,7 @@ import * as echarts from 'echarts';
 // 基于准备好的dom，初始化echarts实例
 
 
-const ComboChart = ({ index,data, chartActive, setTableActive, setChartActive }) => {
+const ComboChart = ({ index,data, chartActive,onChange }) => {
   // console.log('chartData',data)
 
   useEffect(() => {
@@ -151,9 +151,7 @@ const ComboChart = ({ index,data, chartActive, setTableActive, setChartActive })
       myChart.on('click', function (e) {
         //先把之前的放大状态清空
         // console.log(e)
-        setChartActive('')
-        setTableActive(e.data[0])
-        
+        onChange('',e.data[0])        
         myChart.setOption({
           series: [
             {

@@ -10,7 +10,7 @@ function SideMenu(props) {
 
 
 
-    const { menuList,urlValueList,setUrlValueList } = props
+    const { menuList,onChange } = props
 
     return <div className={'menu'}>
         {
@@ -21,7 +21,7 @@ function SideMenu(props) {
                         item.children.map((menuItem, idx) => (
                             <div
                                 className={classnames('menuItem', activeItem == menuItem.name ? 'active' : null)}
-                                onClick={() => { setActiveItem(menuItem.name); setUrlValueList(menuItem.value) }}
+                                onClick={() => { setActiveItem(menuItem.name); onChange(menuItem.value) }}
                                 key={idx}>
                                 {menuItem.name}
                             </div>
