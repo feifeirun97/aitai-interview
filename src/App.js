@@ -36,7 +36,7 @@ function App() {
               }}
             >
             <Model/>
-            {/* <Test /> */}
+            <Test />
             </Content>
           </Layout>
         </Layout>

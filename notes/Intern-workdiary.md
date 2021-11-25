@@ -590,8 +590,6 @@ console.log(error);
 
 
 
-
-
 ## Questions
 
 #### Week2-day2

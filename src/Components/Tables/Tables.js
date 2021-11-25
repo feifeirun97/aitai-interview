@@ -170,6 +170,7 @@ export default function TableCustomized() {
         ))}
 
       </div>
+      
       <div className={`table ${selectedT1 && "table-active"}`} style={{marginBottom:'1.5rem'}} onClick={()=>changeT1()}>
         <div className={`table ${selectedT1 && "tableName-active"}`} style={{display:'flex',alignItems:'center'}}>
           <div className={`${selectedT1 ? "selectBar-active":"selectBar"}`}></div>

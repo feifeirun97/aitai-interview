@@ -42,7 +42,7 @@ export default function ChartAndTableUnit({ index, urlValue, type }) {
 
     useEffect(() => {
         //先get确定下一步post的formdata内容
-        axios.get(urlList.get + urlValue + '_doc')
+        axios.get(urlList.get + urlValue + '_doc',{params:{'proj_id': 'gc_dxm'}})
             .then(res => {
                 //第一次请求先获取display列表，获取并设置demensionList
                 setDimension(res.data.content.display.map(d => (
