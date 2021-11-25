@@ -9,18 +9,11 @@ import TableToolbar from '../components/TableToolBar'
 import ScatterChart from '../components/charts/ScatterChart'
 
 
-const Chart = ({index, type, data, tableActive, chartActive, setChartActive, setTableActive}) => {
-    if (type === 'scatter') return <ScatterChart index={index} data={data.plt} />
-    if (type === 'bar_line') return <CombChart index={index} data={data.plt} tableActive={tableActive} chartActive={chartActive} onChange={(data1, data2) => { setChartActive(data1); setTableActive(data2); }} />
-
-}
 
 export default function ChartAndTableUnit({ index, urlValue, type }) {
 
     //这两个都是选中的标题，如2018Q1
-    const [tableActive, setTableActive] = useState('')
-    const [chartActive, setChartActive] = useState('')
-    const [dataSwitch, setDataSwitch] = useState(1)
+    const [linkActive, setLinkActive] = useState('')
     //dimension是一个{‘requestKey’:'period','requestValue':'Y'}字典
     const [dimension, setDimension] = useState([])
     //展示内容
@@ -31,11 +24,8 @@ export default function ChartAndTableUnit({ index, urlValue, type }) {
 
 
     useEffect(()=>{
-        console.log('chartactive,',chartActive)
-    },[chartActive])
-    useEffect(()=>{
-        console.log('tableActive,',tableActive)
-    },[tableActive])
+        console.log('linkActive,',linkActive)
+    },[linkActive])
 
     useEffect(() => {
         if (!quantity) {
@@ -91,17 +81,15 @@ export default function ChartAndTableUnit({ index, urlValue, type }) {
                 type === 'scatter' ? 
                     <ScatterChart index={index} data={data.plt} /> 
                 : type === 'bar_line'? 
-                    <CombChart index={index} data={data.plt} tableActive={tableActive} chartActive={chartActive} onChange={(data1, data2) => { setChartActive(data1); setTableActive(data2); }} />
+                    <CombChart index={index} data={data.plt} linkActive={linkActive}  onChange={(data1) => { setLinkActive(data1) }} />
                 : '不是柱线图，不是散点图'
             }
         
-           {/* <Chart index={index} type={type} data={data} tableActive={tableActive} chartActive={chartActive} setChartActive={setChartActive} setTableActive={setTableActive}/>
-            */}
             {
                 data.table
                     ? <>
                         <TableToolbar quantity={quantity} onChange={data1 => SetQuantity(data1)} />
-                        <CombTable quantity={quantity} data={data.table} tableActive={tableActive} onChange={(data1, data2) => { if (data1) setChartActive(data1); setTableActive(data2); }} />
+                        <CombTable quantity={quantity} data={data.table} linkActive={linkActive} onChange={(data1) => {setLinkActive(data1)}} />
                     </>
                     : null
             }
