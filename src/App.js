@@ -35,8 +35,8 @@ function App() {
                 flexDirection:'column',
               }}
             >
-            {/* <Model/> */}
-            <Test />
+            <Model/>
+            {/* <Test /> */}
             </Content>
           </Layout>
         </Layout>
