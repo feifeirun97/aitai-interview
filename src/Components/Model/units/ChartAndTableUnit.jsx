@@ -7,6 +7,7 @@ import { Button } from 'antd'
 import { Empty } from 'antd';
 import TableToolbar from '../components/TableToolBar'
 import ScatterChart from '../components/charts/ScatterChart'
+import HorizontalBar from '../components/charts/HorizontalBar'
 
 
 
@@ -42,7 +43,7 @@ export default function ChartAndTableUnit({ index, urlValue, type }) {
 
     useEffect(() => {
         //先get确定下一步post的formdata内容
-        axios.get(urlList.get + urlValue + '_doc')
+        axios.get(urlList.get + urlValue + '_doc',{params:{'proj_id': 'gc_dxm'}})
             .then(res => {
                 //第一次请求先获取display列表，获取并设置demensionList
                 setDimension(res.data.content.display.map(d => (
@@ -82,6 +83,8 @@ export default function ChartAndTableUnit({ index, urlValue, type }) {
                     <ScatterChart index={index} data={data.plt} /> 
                 : type === 'bar_line'? 
                     <CombChart index={index} data={data.plt} linkActive={linkActive}  onChange={(data1) => { setLinkActive(data1) }} />
+                : type === 'h_bar'? 
+                    <HorizontalBar index={index} data={data.plt} />
                 : '不是柱线图，不是散点图'
             }
         

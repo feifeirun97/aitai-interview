@@ -15,30 +15,6 @@ const ComboChart = ({ index,data,linkActive,onChange }) => {
       myChart.setOption({
         legend: {},
         tooltip: {
-          trigger: 'axis',
-          showContent: true,
-          // enterable: true,
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-          axisPointer: {
-            type: 'cross',
-            crossStyle: {
-              color: '#fff'
-            }
-          },
-          // formatter:(params,ticket,callback)=>{
-          //   console.log('params',params.encode);
-          //   console.log('t',ticket)
-          // },
-          position:
-
-            function (pos, params, dom, rect, size) {
-              // tooltip will be fixed on the right if mouse hovering on the left,
-              // and on the left if hovering on the right.
-              var obj = { top: 60 };
-              obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
-              return obj;
-            },
-          transitionDuration: 1.2 //跟随鼠标延迟
         },
         toolbox: {
           feature: {
