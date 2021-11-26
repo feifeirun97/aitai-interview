@@ -6,7 +6,7 @@ import { DownOutlined } from '@ant-design/icons';
 
 
 function GraphToolbar({ onChange, dimension, display }) {
-  console.log(dimension)
+
   const handleMenuClick = (e, dim) => {
     //dimension是一个{‘requestKey’,'requestValue'}字典
     //e.key包含了key和value
@@ -18,7 +18,6 @@ function GraphToolbar({ onChange, dimension, display }) {
         t.displayName = kv[1]
       }
     })
-    console.log(temp)
     onChange([...temp])
   }
   const menu = (d, index) => {
@@ -40,21 +39,46 @@ function GraphToolbar({ onChange, dimension, display }) {
     const baseOpt = Object.entries(dataSource).map(([value, label]) => ({
       value,
       label,
-    }));
+    }))
     flag = pattern.test(baseOpt[0].value)
-    const arr = baseOpt
-      .filter(({ value }) => !value.includes("-"))
-      .map((item) => {
-        return {
-          ...item,
-          children: baseOpt
-            .filter(({ value }) => {
-              let bool = value.includes(item.value);
-              if (flag || value === 'all') return bool;
-              return bool && value !== item.value;
-            })
-        };
-      });
+    let arr
+    // flag为true 时间维度, 通过Q,M判断二级菜单
+    if (flag) {
+      arr = baseOpt
+        .filter(({ label }) => !label.includes("Q") && !label.includes("M"))
+        .map((item) => {
+          return {
+            ...item,
+            children: baseOpt
+              .filter(({ label }) => {
+                let bool = label.includes(item.label);
+                //时间维度，二级菜单会显示该时间
+                //不是而且不为‘all'，就不显示
+                if (flag || label === 'all') return bool;
+                return bool && label !== item.label;
+              })
+          };
+        });
+    }
+    // flag为false 其他维度, 通过-判断二级菜单
+    else {
+      arr = baseOpt
+        .filter(({ value }) => !value.includes("-"))
+        .map((item) => {
+          return {
+            ...item,
+            children: baseOpt
+              .filter(({ value }) => {
+                let bool = value.includes(item.value);
+                //时间维度，二级菜单会显示该时间
+                //不是而且不为‘all'，就不显示
+                if (flag || value === 'all') return bool;
+                return bool && value !== item.value;
+              })
+          };
+        });
+    }
+
     return arr
 
   }
@@ -73,7 +97,8 @@ function GraphToolbar({ onChange, dimension, display }) {
               className='cascader'
               expandTrigger="click"
               options={cascaderOption(d.options)}
-              defaultValue={['all', 'all']}
+              displayRender={label => label[label.length-1]}  
+              defaultValue={[dimension[index].requestValue,dimension[index].requestValue]}
               onChange={(val) => {
                 let temp = dimension
                 temp.forEach(t => {

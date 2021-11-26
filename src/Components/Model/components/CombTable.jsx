@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
-import { keepTwoDecimal, formatNumber3, toDollar } from '../utils/math'
+import { keepTwoDecimal, toCount, toPercentage,toDollar } from '../utils/math'
 
 const CombTable = ({ quantity, data, linkActive, onChange }) => {
     const [columns, setColumns] = useState([])
@@ -28,8 +28,8 @@ const CombTable = ({ quantity, data, linkActive, onChange }) => {
                     render: (text, record) => {
                         let decimal = keepTwoDecimal(text)
                         let val
-                        if (record.value_type === 'cnt') return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'#33334F',fontFamily:"Inter"}}>{formatNumber3(decimal)}</div>
-                        if (record.value_type === 'per') return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'#33334F',fontFamily:"Inter"}}>{decimal}%</div>
+                        if (record.value_type === 'cnt') return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'#33334F',fontFamily:"Inter"}}>{toCount(decimal)}</div>
+                        if (record.value_type === 'per') return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'#33334F',fontFamily:"Inter"}}>{toPercentage(decimal)}</div>
                         if (record.value_type === 'amt') {
                             val =toDollar(decimal,quantity)
                             if (decimal===0 || val==='N/A') return <div style={{ fontSize: '12px', fontWeight: '400', padding: '0px' ,color:'#B8B8D9'}}>{val}</div>

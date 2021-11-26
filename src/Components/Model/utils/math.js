@@ -27,7 +27,7 @@ export const toWan = (value) => {
   return '¥' + numeral(Number(value / 10000).toFixed(2)).format('0,0.00') + '万'
 }
 
-
+//切换K, M, B
 export const toDollar = (value, quantity) => {
   let q = quantity === "Raw" ? 1 : quantity === "Thousand" ? 1000 : quantity === "Million" ? 1000000 : 1000000000
   let num = Number(value) / q
@@ -41,10 +41,26 @@ export const toDollar = (value, quantity) => {
   return numeral(num).format('$0,0.0')
 }
 
+// 格式化金额，自动进位切换K，M，B、
+export const toDollarAuto = (value) => {
+  if (isNaN(value)) return '-'
+  if (value === 0) return '$0'
+  
+  if (value >= 1000000000) return numeral(value/1000000000).format('$0,0.00') + 'B'
+  else if (value >= 1000000) return numeral(value/1000000).format('$0,0.00') + 'M'
+  else if (value >= 1000) return numeral(value/1000).format('$0,0.00') + 'K'
+  return numeral(value).format('$0,0.00')
+}
+
 // 格式化数量(三位分隔)
-export const formatNumber3 = function (val) {
-  const format = '0,0';
+export const toCount = function (val) {
   const decimalAmount = keepTwoDecimal(val);
-  const amount = numeral(decimalAmount).format(format);
-  return amount;
+  return numeral(decimalAmount).format('0,0');
 };
+
+// 格式化百分比(三位分隔)
+export const toPercentage = function (val) {
+  const decimalAmount = keepTwoDecimal(val);
+  return numeral(decimalAmount).format('0,0.00') +'%';
+};
+
