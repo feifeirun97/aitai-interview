@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import CombChart from '../components/charts/CombChart'
+import BarLineChart from '../components/charts/CombChart'
 import CombTable from '../components/CombTable'
 import GraphToolbar from '../components/GraphToolbar'
 import axios from 'axios'
@@ -7,7 +7,8 @@ import { Button } from 'antd'
 import { Empty } from 'antd';
 import TableToolbar from '../components/TableToolBar'
 import ScatterChart from '../components/charts/ScatterChart'
-import HorizontalBar from '../components/charts/HorizontalBar'
+import HBarChart from '../components/charts/HorizontalBar'
+import BoxLineChart from '../components/charts/BoxLineChart'
 
 
 
@@ -82,17 +83,19 @@ export default function ChartAndTableUnit({ index, urlValue, type }) {
                 type === 'scatter' ? 
                     <ScatterChart index={index} data={data.plt} /> 
                 : type === 'bar_line'? 
-                    <CombChart index={index} data={data.plt} linkActive={linkActive}  onChange={(data1) => { setLinkActive(data1) }} />
+                    <BarLineChart index={index} data={data.plt} linkActive={linkActive}  onChange={(data1) => { setLinkActive(data1) }} />
                 : type === 'h_bar'? 
-                    <HorizontalBar index={index} data={data.plt} />
-                : '不是柱线图，不是散点图'
+                    <HBarChart index={index} data={data.plt} />
+                : type ==='box_line'?
+                    <BoxLineChart index={index} data={data.plt} linkActive={linkActive} onChange={(data1) => { setLinkActive(data1) }}/>
+                : '不是柱线图，散点图, 箱线图'
             }
         
             {
                 data.table
                     ? <>
                         <TableToolbar quantity={quantity} onChange={data1 => SetQuantity(data1)} />
-                        <CombTable quantity={quantity} data={data.table} linkActive={linkActive} onChange={(data1) => {setLinkActive(data1)}} />
+                        <CombTable index={index} quantity={quantity} data={data.table} linkActive={linkActive} onChange={(data1) => {setLinkActive(data1)}} />
                     </>
                     : null
             }
