@@ -725,6 +725,101 @@ option = {
 };
 ```
 
+### 单漏斗图
+
+```jsx
+
+option = {
+  title: {
+    text: 'Funnel'
+  },
+  tooltip: {
+    trigger: 'item',
+    // formatter: '{a} <br/>{b} : {c}%'
+  },
+  toolbox: {
+    feature: {
+      dataView: { readOnly: false },
+      restore: {},
+      saveAsImage: {}
+    }
+  },
+  legend: {
+    data: ['Show', 'Click', 'Visit', 'Inquiry', 'Order']
+  },
+  series: [
+    {
+
+      type: 'funnel',
+      sort: 'descending',
+      gap: 4,
+      label: {
+        show: true,
+        position: 'inside'
+      },
+      labelLine: {
+        length: 10,
+        lineStyle: {
+          width: 1,
+          type: 'solid'
+        }
+      },
+      itemStyle: {
+        borderColor: '#fff',
+        borderWidth: 1
+      },
+      emphasis: {
+        label: {
+          fontSize: 20
+        }
+      },
+      data: [
+  {
+    name: '1次及以上',
+    value: 1078.0
+  },
+  {
+    name: '2次及以上',
+    value: 1035.0
+  },
+  {
+    name: '3次及以上',
+    value: 757.0
+  },
+  {
+    name: '4次及以上',
+    value: 579.0
+  },
+  {
+    name: '5次及以上',
+    value: 356.0
+  },
+  {
+    name: '6次及以上',
+    value: 254.0
+  },
+  {
+    name: '7次及以上',
+    value: 163.0
+  },
+  {
+    name: '8次及以上',
+    value: 147.0
+  },
+  {
+    name: '9次及以上',
+    value: 85.0
+  },
+  {
+    name: '10次及以上',
+    value: 63.0
+  }]
+    }
+  ]
+};
+
+```
+
 ### 多漏斗图
 
 ```jsx
