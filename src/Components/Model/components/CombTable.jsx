@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import { keepTwoDecimal, toCount, toPercentage,toDollar } from '../utils/math'
 
-const CombTable = ({ quantity, data, linkActive, onChange }) => {
+const CombTable = ({ index,quantity, data, linkActive, onChange }) => {
     const [columns, setColumns] = useState([])
     // console.log(data, columns)
 
@@ -52,7 +52,7 @@ const CombTable = ({ quantity, data, linkActive, onChange }) => {
     useEffect(() => {
         if (linkActive) {
             //find the table, thead and tbody
-            const table = document.getElementsByClassName('combTable')[0]
+            const table = document.getElementsByClassName('combTable'+index)[0]
             const thead = table.getElementsByClassName('ant-table-thead')[0].getElementsByClassName('ant-table-cell')
             const tbody = table.getElementsByClassName('ant-table-tbody')[0].getElementsByClassName('ant-table-row')
 
@@ -92,7 +92,7 @@ const CombTable = ({ quantity, data, linkActive, onChange }) => {
 
     return (
 
-        <div className='combTable'>
+        <div className={'combTable'+index}>
             <Table
                 size='small'
                 dataSource={data}
@@ -104,10 +104,13 @@ const CombTable = ({ quantity, data, linkActive, onChange }) => {
                     return {
                         onClick: event => {
                             // console.log(event.target, record, index)
-                            const table = document.getElementsByClassName('combTable')[0]
+                            const table = document.getElementsByClassName('combTable'+index)[0]
+                            console.log('index',index,table)
+
+
                             const thead = table.getElementsByClassName('ant-table-thead')[0].getElementsByClassName('ant-table-cell')
                             const tbody = table.getElementsByClassName('ant-table-tbody')[0].getElementsByClassName('ant-table-row')
-
+                            // console.log(event.target)
                             let bodyCells = tbody[index].getElementsByClassName('ant-table-cell')
 
                               //遍历所有列

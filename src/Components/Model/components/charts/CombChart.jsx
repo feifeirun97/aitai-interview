@@ -86,6 +86,7 @@ const ComboChart = ({ index,data,linkActive,onChange }) => {
           if (data.bar_data.length !== 0) {
             barSeries = data.bar_data[0].map(s => ({
               type: 'bar',
+              barMaxWidth:120,
               stack: 'same',
               datasetIndex: 0,
               // emphasis: { focus: 'series' },
@@ -100,15 +101,16 @@ const ComboChart = ({ index,data,linkActive,onChange }) => {
               // emphasis: { focus: 'series' },
               yAxisIndex: 1,
               symbol: 'circle',
-              lineStyle: { width: 2 },
+              lineStyle: { width: 3 },
               symbolSize: (val, params) => {
-
+                const dataLength = data[Object.keys(data)[0]].length
+            
                 if (linkActive >= 0) {
-                  if (params.dataIndex === linkActive -1) { return data.length < 8 ? 20 : 7}
-                  if (params.dataIndex === linkActive - 2) { return data.length < 8 ? 12 : 5 }
-                  if (params.dataIndex === linkActive ) { return data.length < 8 ? 12 : 5 }
+                  if (params.dataIndex === linkActive -1) { return dataLength < 8 ? 20 : 10}
+                  if (params.dataIndex === linkActive - 2) { return dataLength < 8 ? 12 : 7 }
+                  if (params.dataIndex === linkActive ) { return dataLength< 8 ? 12 : 7}
                 }
-                return 2
+                return 3.5
               }
 
             }))
@@ -134,12 +136,12 @@ const ComboChart = ({ index,data,linkActive,onChange }) => {
               id: 'aaa',
               symbolSize: (val, params) => {
                 // console.log(params.dataIndex,e.dataIndex)
+                const dataLength = data[Object.keys(data)[0]].length
+                if (params.dataIndex === e.dataIndex) { return dataLength < 8 ? 20 : 12 }
+                if (params.dataIndex === e.dataIndex - 1) { return dataLength < 8 ? 12 : 7 }
+                if (params.dataIndex === e.dataIndex + 1) { return dataLength < 8 ? 12 : 7 }
 
-                if (params.dataIndex === e.dataIndex) { return data.length < 8 ? 20 : 12 }
-                if (params.dataIndex === e.dataIndex - 1) { return data.length < 8 ? 12 : 7 }
-                if (params.dataIndex === e.dataIndex + 1) { return data.length < 8 ? 12 : 7 }
-
-                return 4
+                return 3.5
               }
             }
           ]
