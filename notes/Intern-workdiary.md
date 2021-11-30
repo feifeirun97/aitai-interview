@@ -2,6 +2,10 @@
 
 ![image-20211104150414370](https://i.loli.net/2021/11/04/imEvcJ7rs5Q8Loj.png)      // emphasis: {      //   focus: 'series'      // },
 
+
+
+
+
 ##### 调色color
 
 ```js
@@ -779,9 +783,34 @@ history.push("/modifyPSW");
 > for in为什么需要object.hasOwnProperty(variable)
 >
 > 如果对象是来自原形链会怎么样？
+>
+> ![image-20211130195013523](https://i.loli.net/2021/11/30/3DTJnodyA4ki81Q.png)
 
 ```jsx
-//for
+//for in 会遍历原型链上prototype的key，value
+//必须要object.hasOwnProperty
+
+ function Obj() {
+    this.name = "fei";
+    this.age = "24";
+  }
+  Obj.prototype.job = "SDE";
+  function NewObj() {
+    Obj.call(this);
+    this.color = "yellow";
+  }
+  NewObj.prototype.city = "shanghai";
+  const bbb = new NewObj();
+
+  console.log(bbb)
+
+  for (let key in bbb) {
+    console.log('key', key,bbb[key])
+    if (bbb.hasOwnProperty(key)) {
+      console.log('hasOwnProperty', key,bbb[key])
+    }
+  }
+
 ```
 
 > 多个回调函数时，以集合形式返回
@@ -794,9 +823,42 @@ history.push("/modifyPSW");
 > npm 和 npx的区别
 
 ```jsx
-//onChange={(data1,data2)=> {setDimension(data1); setDataSwitch(data2)}}/
-//和组建内的state区分开来
+//npM - Manager
+//npX - Execute - easy to remember
+
+//NPM 是一个包管理器，你可以使用 NPM 安装 node.js 包
+//NPX 是一个执行 node.js 包的工具。
+
+//无论您是全局安装还是本地安装该软件包都没有关系。NPX 将临时安装并运行它。如果您配置 package.json 文件并将其包含在脚本部分中，NPM 也可以运行包。
 ```
+
+##### Week5-day2
+
+> 对象，列表state刷新问题
+>
+> state改变不刷新
+>
+> ![image-20211130193522928](https://i.loli.net/2021/11/30/eCFnyBYi6JN5E3l.png)
+
+```jsx
+//原因：
+//state监听单属性, 在栈中检测值有无变化,
+//对象和列表。在栈中监听的地址的变化，无法捕获值的变化
+
+//解决：
+//1.简单情况：通过监听对象的某个属性值的变化
+//2.复杂state：深浅拷贝，然后stringfy判断修改后字符串是否相等，变化再去setState
+```
+
+> npm 和 npx的区别
+
+```
+jsx
+```
+
+> npm 和 npx的区别
+
+
 
 # AntD Pro
 

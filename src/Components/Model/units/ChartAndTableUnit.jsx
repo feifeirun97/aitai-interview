@@ -99,6 +99,7 @@ export default function ChartAndTableUnit({ index, urlValue, type }) {
                     </>
                     : null
             }
+            {index}
         </div>
     )
 }

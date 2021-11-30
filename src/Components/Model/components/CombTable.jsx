@@ -106,9 +106,11 @@ const CombTable = ({ index,quantity, data, linkActive, onChange }) => {
                             // console.log(event.target, record, index)
                             const table = document.getElementsByClassName('combTable'+index)[0]
                             console.log('index',index,table)
+
+
                             const thead = table.getElementsByClassName('ant-table-thead')[0].getElementsByClassName('ant-table-cell')
                             const tbody = table.getElementsByClassName('ant-table-tbody')[0].getElementsByClassName('ant-table-row')
-                            console.log(event.target)
+                            // console.log(event.target)
                             let bodyCells = tbody[index].getElementsByClassName('ant-table-cell')
 
                               //遍历所有列
