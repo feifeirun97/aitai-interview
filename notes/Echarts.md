@@ -339,4 +339,4 @@ option = {
 
 +  myChart.off('click')不然会有重复刷新问题
 
-  myChart.on('click',
+  myChart.on('click', 

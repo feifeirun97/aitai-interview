@@ -850,10 +850,20 @@ history.push("/modifyPSW");
 //2.复杂state：深浅拷贝，然后stringfy判断修改后字符串是否相等，变化再去setState
 ```
 
-> npm 和 npx的区别
+##### Week5-day5
 
-```
-jsx
+> Context为什么会让复用性变差？
+>
+> Context
+
+```jsx
+//当Context.Provider重新渲染的时候，它所有的子组件都被重新渲染了
+<Context.Provider value={{theme: this.state.theme, switchTheme: this.switchTheme}}>
+  <div className="App">
+    <Header/>
+    <Content />
+  </div>
+</Context.Provider>
 ```
 
 > npm 和 npx的区别
@@ -862,47 +872,11 @@ jsx
 
 # AntD Pro
 
-#### dva
-
-
-
-
+#### Dva
 
 ![image-20211115220140546](https://i.loli.net/2021/11/30/4LusAweWOmJo7ib.png)
 
-```jsx
-    const urlList = {
-        arpuGet: 'http://192.168.8.165:5020/service-itdd-get/get_drive_user_arpu_doc',
-        arpuPost: 'http://192.168.8.165:5020/service-itdd-post/get_drive_user_arpu',
-        topnAmtGet: 'http://192.168.8.165:5020/service-itdd-get/get_drive_topn_amt_doc',
-        topnAmtPost: 'http://192.168.8.165:5020/service-itdd-post/get_drive_topn_amt',
-        isNewGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_is_new_doc',
-        isNewPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_is_new',
-        topnArpuGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_topn_arpu_doc',
-        topnArpuPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_topn_arpu',
-        fpYearGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_fp_year_doc', //
-        fpYearPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_fp_year', //
-        orderDurGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_order_dur_doc',
-        orderDurPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_order_dur',
-        mrrNewGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_is_new_doc',
-        mrrNewPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_is_new',
-        mrrUserDurGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_user_dur_doc',
-        mrrUserDurPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_user_dur',
-        mrrAliveGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_is_alive_doc',
-        mrrAlivePost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_is_alive',
-        mrrCallBackGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_callback_doc',
-        mrrCallBackPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_callback',
-        mrrTopnGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_topn_doc',
-        mrrTopnPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_topn',
-        mrrSnumGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_snum_doc',
-        mrrSnumPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_snum',
-        mrrConvertGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_convert_doc',
-        mrrConvertPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_convert',
-        netRrGet:'http://192.168.8.165:5020/service-itdd-get/get_drive_mrr_net_rr_doc',
-        netRrPost:'http://192.168.8.165:5020/service-itdd-post/get_drive_mrr_net_rr',
-    }
 
-```
 
 *dimension*.requestValue=== *s* ? styles.active : null
 
