@@ -854,21 +854,58 @@ history.push("/modifyPSW");
 
 > Context为什么会让复用性变差？
 >
-> Context
 
 ```jsx
-//当Context.Provider重新渲染的时候，它所有的子组件都被重新渲染了
-<Context.Provider value={{theme: this.state.theme, switchTheme: this.switchTheme}}>
-  <div className="App">
-    <Header/>
-    <Content />
-  </div>
-</Context.Provider>
+//原因是需要复用这个组件的地方必须要构建一个react context包裹来提供这部分组件需要的数据。
+const ComponentA = (props)=>{
+    const data = useContext(context)
+    return <A data={data}></A>
+}
+
+//1、context要遵循hooks规范，只能在组件或hooks中使用，在普通函数中无法使用，也就是说在普通函数中，如果要获取到context中的数据，需要用参数传进来，或者把它放到hooks中
+//2、context只管数据传递，如要修改数据，修改的方法我们也要传递下去
+
 ```
 
-> npm 和 npx的区别
+##### Week6-day1
 
+> yield是什么？如何理解这段代码？
+>
+> ​    *fetchFunds({ *payload* = {} }, { *call*, *put* }) {
+>
+> ​      yield put({
+>
+> ​        type: 'changeLoading',
+>
+> ​        payload: true,
+>
+> ​      });
 
+```jsx
+//
+```
+
+> 函数被调用时自带的arguments是类数组，类数组有什么区别？
+
+```jsx
+//
+```
+
+> new返回的是什么？new的过程？
+
+```jsx
+//
+```
+
+> 适配页面尺寸用的什么方法？
+>
+> Screen.height问题
+
+```jsx
+//
+```
+
+> 
 
 # AntD Pro
 
@@ -879,4 +916,24 @@ history.push("/modifyPSW");
 
 
 *dimension*.requestValue=== *s* ? styles.active : null
+
+```
+function Employee () {
+this.name = "";
+this.dept = "general";
+}
+
+function WorkerBee () {
+this.projects = [];
+}
+
+function SalesPerson () {
+this.dept = "sales";
+this.quota = 100;
+}
+
+WorkerBee.prototype = new Employee;
+SalesPerson.prototype = new WorkerBee;
+new SalesPerson
+```
 
