@@ -453,10 +453,10 @@ const ComponentA = (props)=>{
 //
 ```
 
-> 服务器返回一个store会加速渲染吗？
+> 服务器端渲染 - 你只需将服务器上创建的 store 传到客户端即可。这对初始渲染非常有用，并且可以优化应用性能，从而提供更好的用户体验
 
 ```jsx
-//
+//发送的不再是单个state，而是一个模版
 ```
 
 > 在style.less里修改某个全局css？
@@ -465,7 +465,13 @@ const ComponentA = (props)=>{
 //对于absolute元素，必须修改全部下的css
 //而import styles会默认加上前缀
 //想要不影响其他全局，只针对该组件内absolute时的修改它的css
-
+   :global(.ant-cascader-picker-label){
+      color: #7171A6;
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: -0.006em;
+      padding: 0 0.7rem;
+    }
 ```
 
 > 如何理解state更新？
@@ -475,11 +481,31 @@ const ComponentA = (props)=>{
 ```jsx
 //this.setState的时候，对对象中的某个值做更新,但原有的state仍保存
 //但hook如果对某个值去改变，原有的state直接消失，所以需要...浅拷贝
+
 ```
 
 
 
+##### Week6-day5
 
+> Charts onresize同一页面出现多个图，只针对一个生效
+
+```jsx
+//这段代码所有图都有，但只跑了一次
+window.onresize = function () {
+        console.log('resize:',index)
+        myChart.resize();
+ }
+//用addListener二级绑定，onresize会被替换掉
+```
+
+> 
+
+```jsx
+//
+```
+
+> 
 
 ```jsx
 
