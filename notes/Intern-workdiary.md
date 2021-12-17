@@ -444,19 +444,20 @@ const ComponentA = (props)=>{
 > 函数被调用时自带的arguments是类数组，类数组有什么区别？
 
 ```jsx
-//
+//类数组本质是一个对象，只不过有一个length属性
+//arguments并不能使用数组的方法
 ```
 
 > new返回的是什么？new的过程？
 
 ```jsx
-//
+//n
 ```
 
 > 服务器返回一个store会加速渲染吗？
 
 ```jsx
-//
+//并非返回一个store里的数据，而是直接返回一个模版类似html文件
 ```
 
 > 在style.less里修改某个全局css？
@@ -465,7 +466,6 @@ const ComponentA = (props)=>{
 //对于absolute元素，必须修改全部下的css
 //而import styles会默认加上前缀
 //想要不影响其他全局，只针对该组件内absolute时的修改它的css
-
 ```
 
 > 如何理解state更新？
@@ -477,14 +477,15 @@ const ComponentA = (props)=>{
 //但hook如果对某个值去改变，原有的state直接消失，所以需要...浅拷贝
 ```
 
+**week7-day5**
 
-
-
+> css如何选中表格每一行的第一列？
 
 ```jsx
+//伪类选择器E:nth-of-type(n)
+//https://www.html.cn/qa/css3/13447.html
 
-
-189, 230, 166
+伪类的功能和一般的DOM中的元素样式相似，但它并不改变任何DOM内容，只是插入了一些修饰类的元素，这些元素对于用户来说是可见的，但是对于DOM来说不可见。
 ```
 
 
