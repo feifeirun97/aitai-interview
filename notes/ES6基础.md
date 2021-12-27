@@ -1,16 +1,232 @@
 ### ES6
 
++ 块级作用域let,const
+
++ 模块化import,export
+
++ 箭头函数=>
+
++ 解构赋值[a,b]=[b,a] 
+
++ 运算符`...`
+
++ 模板字符串``  [可以换行, $变量, 不需要频繁++]
+
++ 字符串拓展`includes`,`startWith`,`endsWith`
+
++ 新增对象方法`Object.assign()/is()`
+
++ Proxy代理对象
+
++ Promise
+
 ##### 作用域context
 
 **声明变量的六种方法**
 
 ES5只有var和function声明。ES6新增let，const，import和class
 
-**变量提升hoisting**
+### let,var, const:
 
-var声明的变量被提升到当前作用域顶层，但是没有初始化。funct会提升并且初始化
+​	var和function存在变量提升，在代码执行前的编译阶段var会被提升且初始化为undefined，function会被提升且初始化赋值，他们无视块级作用域。const定义的对象属性可以改变，原因是指向对象的堆地址没变
 
-JavaScript's default behavior of moving all declarations to the top of the current scope. JavaScript only hoists declarations, not initializations.
+#### Let
+
+**暂时性死区TDZ**
+
+​	在块级作用域内，用let声明的变量在被初始化之前不能被读取或修改，不然会报错。同时let声明的变量不再受外部的影响。`RefrenceError`。从块级作用域开头直到变量初始化完成的区域就叫暂时性死区。
+
++ TDZ让`typeof`不再百分百安全`typeof(a); let a; RefError` .作为比较，如果一个变量根本没有被声明，使用`typeof`反而不会报错。
+
+```js
+{ // TDZ starts at beginning of scope
+  console.log(bar); // undefined
+  console.log(foo); // ReferenceError
+  var bar = 1;
+  let foo = 2; // End of TDZ (for foo)
+}
+{
+    // TDZ starts at beginning of scope
+    const func = () => console.log(letVar); // OK
+    // Within the TDZ letVar access throws `ReferenceError`
+    let letVar = 3; // End of TDZ (for letVar)
+    func(); // Called outside TDZ!
+}
+
+```
+
+**块级作用域**
+
+​	ES5只有函数和全局作用域。可能会变量覆盖或者循环变量泄露。`let,const`实际上为 JavaScript 新增了块级作用域, 块级作用域让匿名立即执行函数不在必要了。
+
+```jsx
+// IIFE 写法
+(function () {var tmp = ...;...}());
+// 块级作用域写法 
+{ let tmp = ...; ...}
+```
+
+**块级作用域和函数声明**
+
+​	考虑到环境导致的行为差异太大，避免在块级作用域内声明函数，写也应该写成函数表达式
+
+```js
+// 块级作用域内部的函数声明语句，建议不要使用
+{ function f() {return 'fei' }}
+// 块级作用域内部，优先使用函数表达式
+{ let f = function () {return 'fei'}
+```
+
+*拓展*
+
+​	ES5 的函数只能在**顶层作用域**和**函数作用域**之中声明，不能在块级作用域声明。ES6的函数声明类似`let`，对作用域外没影响，但实际上为了兼容老代码，ES6规定浏览器可以有自己的行为方式。
+
+所以实际上，浏览器的ES6块级声明函数类似`var`的声明
+
+```JS
+function f() { console.log('I am outside!'); }
+(function () {
+  //var f = undefined; f被变量提升了
+  if (false) {
+    function f() { console.log('I am inside!'); }
+  }
+
+  f();
+}());
+// Uncaught TypeError: f is not a function
+```
+
+#### Const
+
+**基本特点**
+
++ const声明变量不能改变值，且一旦声明立即初始化，不能留到以后赋值`const a ;报错`
+
++ 存在暂时性死区
+
+**本质**
+
+​	const保证的是变量指向的**内存地址所保存的数据**不变。对于简单类数据，其指向内存地址保存的数据等同于常量。对于复杂数据，变量指向的内存地址保存的是指向实际数据的指针，至于他指向的数据结构如何变化，就不受控制了。
+
+​	要完全冻结对象，可以递归使用`Object.freeze()`
+
+```jsx
+const constantize = (obj) => {
+  Object.freeze(obj);
+  Object.keys(obj).forEach( (key, i) => {
+    if ( typeof obj[key] === 'object' ) {
+      constantize( obj[key] );
+    }
+  });
+};
+```
+
+#### 变量提升hoisting
+
+> JavaScript's default behavior of moving all declarations to the top of the current scope. JavaScript only hoists declarations, not initializations.
+
+var声明的变量被提升到当前作用域顶层，但是没有初始化。func会提升并且初始化。都在window对象内。
+
+**注意点**
+
++ var无视块级作用域，但限制于函数作用域
+
+    ```js
+    console.log(a)//undefined
+    if (0) {var a }
+    console.log(b)//error
+    function test(){var b }
+    ```
+
++ var优先级高于func
+
+    ```js
+    console.log(a); var a; function a(){};
+    //f()
+    console.log(a); function a(){}; var a;
+    //f()
+    ```
+
++ 块级作用域内的函数声明
+
+    + 对于块级作用域外视为var提升
+    + 对于块级作用域内视为func提升
+    + usestrict时块级作用域内不影响外部
+
+    ```js
+    console.log(a) //undefined
+    if (1) {
+        console.log(a) // f()
+        function a (){}
+    }
+    //等价于
+    var a 
+    console.log(a)
+    if (1) {
+        a = function(){}
+        console.log(a)
+    }
+    ```
+
++ 立即执行函数LIFE声明的变量外界无法访问
+
+    ```js
+    console.log(b);//error
+    var a;
+    (function a() {a=10;var b;})()
+    console.log(a)//un  10没有赋值因为函数立即执行无法赋值
+    ```
+
+**综合题目**
+
+```JS
+console.log(b)//un
+var b=10;
+(function b(){
+    console.log(b) //f()
+    b=20;
+    console.log(b)//f()
+})()
+console.log(b)//10
+
+
+//--------------------------------------
+//难点是最后的为什么是1 不是5, 因为func后面到}为止
+//形成了虚拟作用域
+console.log(a); //un
+if (1){
+    console.log(a) //f()
+    a=1
+    console.log(a) //1
+    function a() {}
+    console.log(a) //1
+    a=5
+    console.log(a)//5
+}
+ console.log(a) //1
+//等价于
+var a 
+console.log(a)
+if (1) {
+    a = function () {}
+    a = 1
+    //虚拟作用域开始 a=5不影响外面
+    a=5
+}
+
+
+//---------------------------
+var a;
+if (1) {
+    function a () {}
+    a =1 //虚拟作用域
+}
+console.log(a)//f()
+```
+
+
+
+
 
 ### 顶层对象属性
 
