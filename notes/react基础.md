@@ -301,6 +301,23 @@ ReactDOM.render(element,document.getElementById('root'));
 
 **Props只读**
 
+#### Diffing算法
+
+> 在某一时间节点调用 React 的 `render()` 方法，会创建一棵由 React 元素组成的树。在下一次 state 或 props 更新时，相同的 `render()` 方法会返回一棵不同的树。React 需要基于这两棵树之间的差别来判断如何高效的更新 UI，以保证当前 UI 与最新的树保持同步。
+>
+> 此算法有一些通用的解决方案，即生成将一棵树转换成另一棵树的最小操作次数。然而，即使使用[最优的算法](http://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf)，该算法的复杂程度仍为 O(n 3 )，其中 n 是树中元素的数量。
+
+React 在以下两个假设的基础之上提出了一套 O(n) 的启发式算法：
+
+1. 两个不同类型的元素会产生出不同的树；
+2. 开发者可以通过设置 `key` 属性，来告知渲染哪些子元素在不同的渲染下可以保存不变；
+
+
+
+
+
+
+
 #### State & 生命周期
 
 **State**
@@ -372,7 +389,182 @@ ReactDOM.render(element,document.getElementById('root'));
 
 map渲染列表元素时需要加一个key属性，这是英文key可以帮助react元素识别哪些元素被改变/添加/删除
 
-#### 表单
+#### 组合继承
+
+**组合**
+
++ 有的组件无法提前知晓子组件的具体内容，可以使用`{props.children}`传入JSX。
+
++ 或`{props.left; props.right}`采取预留出几个位置传入多个组件。
+
+```jsx
+//porps传JSX
+function FancyBorder(props) {
+  return (<div className={props.color}> {props.children} </div>);
+}
+
+function WelcomeDialog() {
+  return (
+    <FancyBorder color="blue">
+      <h1>Welcome</h1>
+      <p> Thank you for visiting our spacecraft! </p>
+    </FancyBorder>
+  );
+}
+
+
+//空出位置传入组件,组合
+function App() {
+  return (
+    <SplitPane left={<Contacts />} right={<Chat />} >
+      <input />
+      <p>input sth!</p>
+    </SplitPane>
+)}
+
+function SplitPane(props) {
+  return (<>
+      			<div className="left">{props.left}</div>
+      			<div className="right">{props.right}</div>
+          	<div>{props.children}</div>
+   				</>);
+}
+```
+
+**继承**
+
+React组件可以直接import而无需组件间继承extend。
+
+注意：类组件不是组件间的继承, props是JSX传递下来的，这里的extends只是把props的属性都绑定到当前组件上。
+
+```jsx
+class Test extends React.Component{
+  constructor(props){super(props) //super会调用原型的构造函数}
+}
+//React.Component本质上是一个函数
+function Component(props, context, updater) {
+    this.props = props;
+    this.context = context;
+    this.refs = emptyObject; 
+    this.updater = updater || ReactNoopUpdateQueue;
+}
+
+```
+
+#### 代码分割
+
+打包是将文件合并到一个单独文件的过程，最终形成一个bundle。
+
+目前都是单页面应用，打包的bundle文件可能会比较大，首次加载会吧bundle里所有组件都加载了【即使不需要】。所以代码分割`chunk.js`的目的是按需加载。
+
+webpack代码分割，虽然没有减少总体积，但是可以避免加载用户不需要的代码，并减少初始加载的代码量，'懒加载'提升性能。
+
+**动态分割**
+
+import()语法动态分割，`react-loadable;react-loadable`解析到就会自动进行分割。
+
+> 不要把 `import`关键字和`import()`方法弄混了，该方法是为了进行动态加载才被引入的。`import`关键字的引入是静态编译且存在提升的，这就对我们按需加载产生了阻力（require是可以动态加载的），所以才有了`import()`。
+
+```js
+import { add } from './math';console.log(add(16, 26));
+//使用
+import("./math").then(math => {console.log(math.add(16, 26));});
+```
+
+**何时分割**
+
+代码分割需要兼顾用户体验和性能。路由分割是一个不错的选择
+
+#### Context
+
+Context的目的是共享对于一个组件树而言全局的数据。避免了props的层层传递。
+
+**Context会让复用性变差：**
+
++ 需要复用这个组件的地方必须要构建一个react context包裹来提供这部分组件需要的数据。
++ context要遵循hooks规范，只能在组件或hooks中使用，在普通函数中无法使用，也就是说在普通函数中，如果要获取到context中的数据，需要用参数传进来，或者把它放到hooks中
++ context只管数据传递，如要修改数据，修改的方法我们也要传递下去
+
+```jsx
+// Context 可以让我们无须明确地传遍每一个组件，就能将值深入传递进组件树。
+// 为当前的 theme 创建一个 context（“light”为默认值）。
+const ThemeContext = React.createContext('light');
+
+class App extends React.Component {
+  render() {return (
+      <ThemeContext.Provider value="dark">        
+        <Toolbar />
+      </ThemeContext.Provider>
+    );}}
+
+// 中间的组件再也不必指明往下传递 theme 了。
+function Toolbar() {  return (<ThemedButton />);}
+
+class ThemedButton extends React.Component {
+  // 指定 contextType 读取当前的 theme context。  
+  // React 会往上找到最近的 theme Provider，然后使用它的值。在这个例子中，当前的 theme 值为 “dark”。  
+  static contextType = ThemeContext;
+  render() {
+    return <Button theme={this.context} />;  }
+}
+```
+
+#### Portals
+
+> 通常而言组件render的React元素会被挂载到离它最近的DOM节点。Portal类似于在楼外安装电梯，在楼内需要传递状态的成本过高。详解https://segmentfault.com/a/1190000012325351
+
+Portal可以让子节点渲染到其父组件之外的DOM节点。当父组件有 `overflow: hidden` 或 `z-index` 样式时，但你需要子组件能够在视觉上“跳出”其容器，而不是被父节点的样式影响。
+
++ modal，tooltip，loading
+
++  portal 仍存在于 *React 树*， 且与 *DOM 树* 中的位置无关
+
++  portal 内部触发的事件会根据虚拟DOM冒泡至 *React 树*的祖先，与真实 *DOM 树* 无关。
+
+```js
+// 第一个参数 child 是任何可以被渲染的 ReactChild，比如 element, string 或者 fragment. 第二个参数 container 是 一个 DOM 元素
+ReactDOM.createPortal(child, container)}
+```
+
+#### Profiler
+
+用于测量一个 React 应用多久渲染一次以及渲染一次的“代价”。目的是识别出应用中渲染较慢的部分，并从相关优化中获益。
+
+`Profiler` 能添加在 React 树中的任何地方来测量树中这部分渲染所带来的开销。 它需要两个 prop ：一个是 `id`(string)，一个是当组件树中的组件“提交”更新的时候被React调用的回调函数 `onRender`(function)。
+
+```jsx
+render(
+  <App>
+    <Profiler id="Navigation" onRender={callback}>
+      <Navigation {...props} />
+    </Profiler>
+    <Main {...props} />
+  </App>
+);
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+页面的渲染流程：
+
+1. 浏览器通过请求得到一个HTML文本
+2. 渲染进程解析HTML文本，构建DOM树
+3. 解析HTML的同时，如果遇到内联样式或者样式脚本，则下载并构建样式规则（stytle rules），若遇到JavaScript脚本，则会下载执行脚本。
+4. DOM树和样式规则构建完成之后，渲染进程将两者合并成渲染树（render tree）
+5. 渲染进程开始对渲染树进行布局，生成布局树（layout tree）
+6. 渲染进程对布局树进行绘制，生成绘制记录
+7. 渲染进程的对布局树进行分层，分别栅格化每一层，并得到合成帧
+8. 渲染进程将合成帧信息发送给GPU进程显示到页面中
 
 
 
