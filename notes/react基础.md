@@ -543,7 +543,36 @@ render(
 
 ### React Hook
 
-Hook 使你在无需修改组件结构的情况下复用状态逻辑。
++ Hook 使你在无需修改组件结构的情况下复用状态逻辑。
++ Hook 是一个特殊的函数，它可以让你“钩入” React 的特性, 在函数组件里使用React state 及生命周期等特性的函数。
++ Hook 使用了 JavaScript 的闭包机制
+
+**StateHook**
+
+useState返回与`this.state.count` 和 `this.setState`类似，所以需要解构赋值。
+
+**解决**
+
++ 复杂的声明周期
++ class的this需要绑定
+
+**EffectHook**
+
+> 数据获取、订阅或者手动修改过 DOM称为sideEffect。
+
+`useEffect` 让函数组件也能操作副作用，它与`componentDidMount`、`componentDidUpdate` 和 `componentWillUnmount` 具有相同的用途，只不过被合并成了一个 API。
+
+Class组件对于加载和更新可能需要写两段重复的代码，而Effect不用再去考虑“挂载”还是“更新”。React 保证了每次运行 effect 的同时，DOM 都已经更新完毕。
+
+**React 何时清除 effect？** 
+
+> React 会在组件卸载的时候执行清除操作。
+>
+> 正如之前学到的，effect 在每次渲染的时候都会执行，而不是只在卸载组件的时候执行一次。这就是为什么 React *会*在执行当前 effect 之前对上一个 effect 进行清除。
+
+注意有些Effect需要清除，需要返回一个函数
+
+### 
 
 
 
@@ -553,16 +582,7 @@ Hook 使你在无需修改组件结构的情况下复用状态逻辑。
 
 
 
-页面的渲染流程：
 
-1. 浏览器通过请求得到一个HTML文本
-2. 渲染进程解析HTML文本，构建DOM树
-3. 解析HTML的同时，如果遇到内联样式或者样式脚本，则下载并构建样式规则（stytle rules），若遇到JavaScript脚本，则会下载执行脚本。
-4. DOM树和样式规则构建完成之后，渲染进程将两者合并成渲染树（render tree）
-5. 渲染进程开始对渲染树进行布局，生成布局树（layout tree）
-6. 渲染进程对布局树进行绘制，生成绘制记录
-7. 渲染进程的对布局树进行分层，分别栅格化每一层，并得到合成帧
-8. 渲染进程将合成帧信息发送给GPU进程显示到页面中
 
 
 
@@ -662,6 +682,21 @@ window.onscroll=function(){console.log('hello')}
 ```
 
 
+
+
+
+
+
+#### 页面的渲染流程
+
+1. 浏览器通过请求得到一个HTML文本
+2. 渲染进程解析HTML文本，构建DOM树
+3. 解析HTML的同时，如果遇到内联样式或者样式脚本，则下载并构建样式规则（stytle rules），若遇到JavaScript脚本，则会下载执行脚本。
+4. DOM树和样式规则构建完成之后，渲染进程将两者合并成渲染树（render tree）
+5. 渲染进程开始对渲染树进行布局，生成布局树（layout tree）
+6. 渲染进程对布局树进行绘制，生成绘制记录
+7. 渲染进程的对布局树进行分层，分别栅格化每一层，并得到合成帧
+8. 渲染进程将合成帧信息发送给GPU进程显示到页面中
 
 
 
