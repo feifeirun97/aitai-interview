@@ -472,7 +472,7 @@ Object.setPrototypeOf(obj, proto);
 obj.find() // "hello"
 ```
 
-#### 对象新增方法
+### 对象新增方法
 
 **Object.is()**
 
@@ -485,26 +485,145 @@ Object.is(+0, -0) // false
 Object.is(NaN, NaN) // true
 ```
 
-**Object.assign()**
+<font style='color:red'>**Object.assign()**</font>
 
-用于对象的合并，把源对象的可枚举属性都复制到目标对象。只有一个参数就是返回该参数
+用于对象的合并，把源对象的可枚举属性都复制到目标对象。只有一个参数就是返回该参数。
+
+*常见用途*
+
++ 可以setState时增加属性`setTest(test, {new:'new!'})`
++ Mixin/为对象添加方法`Object.assign(SomeClass.prototype, {someMethod(arg1, arg2) {},);` 
++ 浅拷贝克隆`Object.assign({},test)`
 
 ```javascript
 const target = { a: 1 };const source1 = { b: 2 };const source2 = { c: 3 };
 Object.assign(target, source1, source2);// target: {a:1, b:2, c:3}
 ```
 
+**Object.keys()/values()**
+
+获取对象的键，值
+
+**Object.fromEntries**
+
+`Object.entries()`的逆操作，用于将一个键值对数组转为对象。
+
+**Object.create()**
+
+实现继承的另一种方式。`Object.create(xxx)`
+
+### 运算符的拓展
+
+<font style='color:red'>**链判断`?.`**</font>
+
+获取深层属性不必层层判断了
+
+```js
+const firstName = (message&& message.body&& message.body.user&& message.body.user.firstName)
+//优化
+//在链式调用的时候判断，左侧的对象是为null或undefined就返回undefined。
+const firstName = message?.body?.user?.firstName ?? 'default';
+```
+
+**空判断**
+
+用`test || 0`不可靠，false或者‘’或者0都会失效。用`??`来代替
 
 
 
+### Symbol
+
+全新的原始数据类型。为对象添加新方法(mixin模式)，又想保证不会因为名字冲突被覆盖，就引入了Symbol
+
++ Symbol是独一无二的
++ Symbol 值不能与其他类型的值进行运算，会报错
++ Symbol在对象哪读取必须用`[]` `.后面只能跟字符串`
++ 遍历对象的时候，只能用`Object.getOwnPropertySymbols()`方法获取
+
+```js
+//'Symbol' 注意不是对象不能用new
+let a = Symbol() 
+
+//函数可以接受一个字符串作为参数表示描述, 主要是为了在控制台显示用于区分
+let s1 = Symbol('foo');let s2 = Symbol('foo');
+s1 === s2 // false
+
+//作为对象属性
+let mySymbol = Symbol();
+let a = {[mySymbol]: 'Hello!'};
+a[mySymbol] //'Hello!'
+```
 
 
 
+### Set和Map数据结构
+
+**Set**
+
+类似于数组但是没有重复的值。可以用来去重。方法有`add,delete,has,clear`
+
+```js
+console.log(new Set([1,2,3,4,3,4,5,5,1]) // Set(5) {1, 2, 3, 4, 5}
+```
+
+**WeakSet**
+
+> WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，也就是说，如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存，不考虑该对象还存在于 WeakSet 之中。
+>
+> 这是因为**垃圾回收机制根据对象的可达性（reachability）来判断回收，如果对象还能被访问到，垃圾回收机制就不会释放这块内存。**结束使用该值之后，有时会忘记取消引用，导致内存无法释放，进而可能会引发内存泄漏。WeakSet 里面的引用，都不计入垃圾回收机制，所以就不存在这个问题。因此，WeakSet 适合临时存放一组对象，以及存放跟对象绑定的信息。只要这些对象在外部消失，它在 WeakSet 里面的引用就会自动消失。
+>
+> 由于上面这个特点，WeakSet 的成员是不适合引用的，因为它会随时消失。另外，由于 WeakSet 内部有多少个成员，取决于垃圾回收机制有没有运行，运行前后很可能成员个数是不一样的，而垃圾回收机制何时运行是不可预测的，因此 ES6 规定 WeakSet 不可遍历。
+
++ 与Set的区别：1. 成员只能是对象	2.对象都是弱引用	3.不可遍历
+
++ 方法有：`has, delete, add`
+
++ 使用场景：临时存放一组对象，以及存放跟对象绑定的信息。只要这些对象在外部消失，它在 WeakSet 里面的引用就会自动消失。
+
+#### Map
+
+JS对象本质上是键值对的集合(Hash Structure), 但使用时只能用字符串当作键，带来了很大的限制。
+
++ 与对象区别：1. 各种类型的值/对象都能当作键。2. 无同名属性碰撞问题，因为map的键实际上与内存地址绑定`map.set(k1, 111).set(k2, 222)不覆盖`。3.Map有顺序
++ 方法有：`size, set(key,value), get, has, delete, clear`
+
+```js
+const map = new Map();
+//set方法和get方法
+map.set({test: 'Hello World'}, 'content')
+m.get(o) // "content"
+```
+
+#### WeakMap
+
++ 与Map区别：1. 成员只能是对象	2.对象都是弱引用，不计入垃圾回收机制	3.不可遍历  4. 没有`size, clear`方法 
+
++ 方法：`get, set, has, delete`
+
++ 使用场景：临时存放一组对象，以及存放跟对象绑定的信息。存放dom节点，存放私有属性。
 
 
 
+### Proxy
 
+> Proxy 可以理解成，在目标对象之前架设一层“拦截”，外界对该对象的访问，都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写。
 
+#### 创建
+
+`new Proxy()`表示生成一个`Proxy`实例，`target`参数表示所要拦截的目标对象，`handler`参数也是一个对象，用来定制拦截行为。
+
+对target的`.`操作都会被`handler`拦截, 如果为空等于通向原对象
+
+```js
+//template
+var proxy = new Proxy(target, handler);
+
+//example
+var proxy = new Proxy({}, {get: function(target, propKey) {return 35}});
+proxy.time // 35
+proxy.name // 35
+proxy.title // 35
+```
 
 
 
@@ -515,4 +634,46 @@ Object.assign(target, source1, source2);// target: {a:1, b:2, c:3}
 yield
 
 严格模式
+
+**数据类型Primitive and Reference value**
+
+原始数据：string, boolean, null, undefined, bigInt, symbol. [Stack]
+
+引用数据：object
+
+只有对象才能new，原始数据类型只能声明
+
+**原始类型包装对象Primitive wrapper objects**
+
+> Except for `null` and `undefined`, all primitive values have object equivalents that wrap around the primitive values:
+
+除了null和undefined, 其余原始类型对象在读取时后台会创建对应的包装类型对象，这个实例会调用指定方法，调用完会被销毁。这种短暂的生命周期也决定了我们不能为基本类型添加自定义的属性和方法。
+
+**Mixin**
+
+[mixin](https://en.wikipedia.org/wiki/Mixin) 是一个包含可被其他类使用而无需继承的方法的类 [面向对象编程术语]。
+
+一些其它编程语言允许多重继承。JavaScript 不支持多重继承，但是可以通过将方法拷贝到原型中来实现 mixin。
+
+```js
+// mixin
+let sayHiMixin = {
+  sayHi() {
+    alert(`Hello ${this.name}`);
+  },
+  sayBye() {
+    alert(`Bye ${this.name}`);
+  }
+};
+
+// 用法：
+class User {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+// 拷贝方法
+Object.assign(User.prototype, sayHiMixin);
+```
 
