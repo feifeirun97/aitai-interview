@@ -1,5 +1,3 @@
-# React
-
 1. 虚拟 DOM；
 2. 组件化；
 3. 声明式代码；
@@ -507,6 +505,14 @@ class ThemedButton extends React.Component {
 }
 ```
 
+#### Ref
+
+操作数据流之外的DOM节点或者React元素。函数组价的useRef可以模拟class组件的this
+
+用途：父组件查看子组件的state
+
+
+
 #### Portals
 
 > 通常而言组件render的React元素会被挂载到离它最近的DOM节点。Portal类似于在楼外安装电梯，在楼内需要传递状态的成本过高。详解https://segmentfault.com/a/1190000012325351
@@ -545,7 +551,7 @@ render(
 
 + Hook 使你在无需修改组件结构的情况下复用状态逻辑。
 + Hook 是一个特殊的函数，它可以让你“钩入” React 的特性, 在函数组件里使用React state 及生命周期等特性的函数。
-+ Hook 使用了 JavaScript 的闭包机制
++ Hook 使用了 JavaScript 的**[闭包机制](https://blog.csdn.net/weixin_38080573/article/details/115178502)**
 
 **StateHook**
 
@@ -572,19 +578,104 @@ Class组件对于加载和更新可能需要写两段重复的代码，而Effect
 
 注意有些Effect需要清除，需要返回一个函数
 
-### 
 
 
+### React优点
 
+> React2013年FaceBook推出的前端框架
 
++ 大量的第三方工具
 
++ 最好的社区支持和生态圈
 
++ 组件模式：代码复用和团队分工
 
++ 虚拟DOM：性能优势
 
++ 移动端支持：跨终端
 
+### React核心思想
 
+View是State的输出`view = f(state)`
 
+React本质是吧GUI图形界面函数化，即React本省只是一个函数，一个UI解决方案，它的职能范围只到ModelAndView。在React层面没有VM的概念，强调的是单向数据流
 
+### React没有解决的问题
+
+React本身只是一个DOM的抽象层，使用组件构建虚拟DOM。如果开发大型应用，还需要解决两个问题
+
+**架构问题**
+
+React只是视图层的解决方案，大型应用程序如何组织代码？它可以使用任何一种架构, 哪一种最适合React？
+
++ MVC
++ MVVM
++ Reactive
++ ...
+
+**通讯问题**
+
+通讯的本质是状态同步。React只提供了一种通讯手段：传参，对于大应用很不方便【后续提供了Context】
+
+**Flux架构**
+
+MVC对于大型应用时复杂性会成指数增加[双向数据流], FaceBook提出了Flux架构的**概念**，被认为是React应用的标准架构。
+
+其最大特点：**数据单项流动，与MVVM的数据双向绑定形成鲜明对比**
+
+核心思想：
+
++ 不同组件的State存在一个外部的公共的Store上面
+
++ 组件订阅Store的不同部分
++ 组件发送（dispatch）动作（action）引发Store的更新
+
+![image-20211231180331832](/Users/xufei/Library/Application Support/typora-user-images/image-20211231180331832.png)
+
+| Store(s)       | **应用状态和逻辑的容器**    |
+| -------------- | --------------------------- |
+| **Action**     | **数据传递给DIspatcher**    |
+| **View**       | **视图，React组件上下文内** |
+| **Dispatcher** | **协调Actions&更新Store**   |
+
+**主流React架构**
+
+React架构最重要的作用：管理Store与View之间的关系
+
++ MobX: 响应式管理(Reactive)，state是可变对象，适合中小型项目
+
++ Redux：函数式管理(Functional)，state是不可变对象，适合大型项目
+
+**MobX**
+
+核心概念： **观察者模式**，Store是被观察者Observable，组件是观察者Observer。一旦Store有变化，立刻被组件观察到从而引发渲染。
+
+Store 所有的属性，分成两大类：直接被观察的属性和自动计算出来的属性。
+
+```js
+const {observable} = mobx;
+const {observer} = mobxReact;
+
+const person = observable({name: "张三", age: 31});
+
+const App = observer(
+  ({ person }) => <h1>{ person.name }</h1>
+);
+
+ReactDOM.render(<App person={person} />, document.body);
+person.name = "李四";
+```
+
+**Redux**
+
+核心概念：
+
++ 所有状态存放在Store，组件每次重新渲染，都必须由状态变化引起
++ 用户在UI上发出Action
+
++ reducer纯函数接受action，然后根据当前的state，计算出新的state
+
+![image-20211231185914206](/Users/xufei/Library/Application Support/typora-user-images/image-20211231185914206.png)![image-20211231185932651](/Users/xufei/Library/Application Support/typora-user-images/image-20211231185932651.png)
 
 
 
@@ -599,6 +690,8 @@ Class组件对于加载和更新可能需要写两段重复的代码，而Effect
 # JS基础
 
 #### **闭包应用**
+
+能够访问其他函数内部变量的函数，被称为 **闭包**。
 
 减少全局变量，模块化
 
@@ -718,7 +811,7 @@ es5出现用于遍历数组，Foreach修改数据不返回，Map返回新数组
 
 ##### Map
 
-#### 纯函数
+**纯函数**
 
 不会尝试更改入参，且多次调用下相同的入参始终返回相同的结果的函数
 
@@ -729,16 +822,108 @@ function sum(a, b) {return a + b;}
 function withdraw(account, amount) {account.total -= amount;}
 ```
 
+#### 前端历史
 
+**JavaScript**
 
+> 脚本语言是一种解释性的语言,例如[Python](https://baike.baidu.com/item/Python)、vbscript、javascript、installshield script、ActionScript等等,它不象c\c++等可以编译成二进制代码,以[可执行文件](https://baike.baidu.com/item/可执行文件)的形式存在，脚本语言不需要编译，可以直接用，由解释器来负责解释。
+>
+> 脚本语言一般都是以文本形式存在,类似于一种命令。
 
+JavaScript一种直译式**脚本语言**，是一种**动态类型、弱类型、基于原型**的语言。它的**解释器被称为JavaScript引擎，为浏览器的一部分**，广泛用于客户端的脚本语言，最早是在HTML（标准通用标记语言下的一个应用）网页上使用，用来给HTML网页增加动态功能。
 
+**后端MVC**
 
+早期的前端代码是后端代码的一部分，后端收到浏览器请求后生成静态页面模版后发送到浏览器。前端只是后端MVC中的V。
 
-如果我们想要判断一个变量是否存在，可以使用`typeof`：(不能使用`if(a)`， 若`a`未声明，则报错)
+![image-20211231140028048](https://s2.loli.net/2021/12/31/HSCcj2qFxesKUXE.png)
 
-```
-if(typeof a != 'undefined'){
-    //变量存在
-}
-```
+| Model          | 模型层     | 提供/保存数据              |
+| -------------- | ---------- | -------------------------- |
+| **Controller** | **控制层** | **数据处理，业务逻辑**     |
+| **View**       | **视图层** | **展示数据，提供用户界面** |
+
+**Ajax**
+
+> 2004 Gmai 2005 Google Map
+
+ajax之后前端不再是后端的模版，可以独立得到各种数据，并促成了web2.0的诞生。
+
+| **web1.0** | **静态纯内容**                     |
+| ---------- | ---------------------------------- |
+| **web2.0** | **动态网页，富交互，前端数据处理** |
+
+**前端MVC**
+
+> 2010 Backbone.js
+
+前端通过Ajax得到数据后也开始出现处理数据，保存数据，生成视图的需求，所以前端MVC框架诞生了。
+
+Backbone将前端分为两个基本部分：Model管理数据，View展示数据
+
+**前端Controller**
+
+Backbone只有MV没有C，这是因为前端Controller与后端不同
+
++ 不需要，也不应该处理业务逻辑
++ 只需要处理UI逻辑，影响用户的一举一动
+
+所以前端Controller相对比较简单，Backbone没有C，只用事件来处理UI逻辑
+
+**MVVM**
+
+另一些框架提出MVVM模式，用ViewModel代替Controller，具有数据双向绑定的特性
+
+| View-Model | 简化的Controller,唯一的作用是为view提供处理好的数据，不含其他逻辑 |
+| ---------- | ------------------------------------------------------------ |
+
+![image-20211231135525092](https://s2.loli.net/2021/12/31/WhHjKGOiw5AqVQc.png)
+
+**Router**
+
+前端有一种天然方法URL来切换视图，这就是Router的作用
+
+**SPA**
+
+> SPA = Single-page application
+>
+> 2010后前端从开发页面=>开发浏览器应用
+
+前端可以做到1. 读写数据  2. 切换视图 3. 用户交互
+
+这意味着网页已经成为了一个应用程序。
+
+![image-20211231142411537](https://s2.loli.net/2021/12/31/liuxBt5GhjswJDd.png)
+
+**Angular**
+
+谷歌推出的Angular是最流行的MVC前端框架。风格是HTML的增强，核心是**双向绑定**。双向绑定没有State概念，变量修改后页面直接改变
+
+**Vue **
+
+与Angular类似，但是用法更简单而且引入了响应式编程的概念。
+
+**前后端分离**
+
+> Ajax->前端应用兴起
+>
+> 智能手机->多终端支持
+
+这两个原因促使前端开发方式发生根本变化，前端不再是后端MVC中的V而是单独的一层。
+
+**H5**
+
+为什么H5会赢得移动端？
+
++ 开发快速：Native需要重新编译，H5即时输出
++ 开发成本低：Native需要多一个开发团队
++ 发布快速：H5随时更新
+
+**Node**
+
+> 2009 Node诞生
+
+Node是服务器上的JavaScript运行环境。Node = JavaScript + 操作系统API
+
++ JavaScript称为服务器脚本语言，与Python和Ruby一样
++ JavaScript成为唯一的浏览器和服务器读支持的语言
