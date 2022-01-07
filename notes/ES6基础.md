@@ -340,8 +340,6 @@ button.addEventListener('click', () => {
 
 多参函数转为单参函数
 
-
-
 ### 运算符拓展
 
 好比rest的逆运算，把一个数组转为用逗号分割的参数序列。
