@@ -69,3 +69,92 @@ function myInstanceof (obj, func){
 }
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# React
+
+#### 1.什么是Hook，背景，优点？
+
+**背景：**
+
+​	class组件复用状态逻辑很难，一般采用高阶组件HOC和Render Props，它们本质是将复用逻辑提升到父组件中，很容易产生很多包装组件，带来嵌套地狱。
+
+​	组件越来越复杂的生命周期
+
+​	this指向忘记绑定导致bug	
+
+**Hook：**
+
+> React希望组件不要成为复杂的容器，最好是数据流的管道，尽量写成纯函数。
+>
+> 纯函数只涉及到计算，如果需要使用外部功能和副作用操作，就用Hook把外部代码勾进来。
+
+​	Hook在函数组件中引入了状态管理和生命周期方法
+
+​	利用闭包机制实现
+
+**优点：**
+
+​	取代HOC和Render Props，无需修改组件就能复用，不用强行提升到父组件
+
+​	useEffect合成了所有生命周期的
+
+​	逻辑更清晰
+
+#### 2. HOC & Render Props
+
+**背景：**
+
+​	HOC`higher-order component` & Render Props 用于 Class组件 的代码复用。本质上都是将复用逻辑提升到父组件。
+
+**Render Props：**
+
+> 具有 render prop 的组件接受一个返回 React 元素的函数，并在组件内部通过调用此函数来实现自己的渲染逻辑。
+
+​	render prop = 告知组件需要渲染什么内容的函数prop
+
+​	把特定行为或功能封装成一个组件。把组件可以动态渲染的地方暴露给外部，你不用再关注组件的内部实现，只要把数据通过函数传出去就好。
+
+```jsx
+class Mouse extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { x: 0, y: 0 };
+  }
+  render() {
+    return (
+      <div>{this.props.render(this.state)}</div>
+    );
+  }
+}
+// 调用方式:
+<Mouse render={mouse => (<p>鼠标的位置是 {mouse.x}，{mouse.y}</p>)}/>
+
+```
+

@@ -549,22 +549,67 @@ render(
 
 ### React Hook
 
+React希望组件不要成为复杂的容器，最好只是数据流的管道。**组件的最佳写法应该是函数而不是类**，Hook的目的就是加强函数组件。
+
+组件尽量写成纯函数，如果**需要外部功能和副作用操作，就用Hook钩子把外部代码勾进来**
+
 + Hook 使你在无需修改组件结构的情况下复用状态逻辑。
 + Hook 是一个特殊的函数，它可以让你“钩入” React 的特性, 在函数组件里使用React state 及生命周期等特性的函数。
 + Hook 使用了 JavaScript 的**[闭包机制](https://blog.csdn.net/weixin_38080573/article/details/115178502)**
 
 **StateHook**
 
-useState返回与`this.state.count` 和 `this.setState`类似，所以需要解构赋值。
+纯函数不能有状态，所以把状态放在钩子里面。useState返回与`this.state.count` 和 `this.setState`类似，所以需要解构赋值。
 
 **解决**
 
 + 复杂的声明周期
 + class的this需要绑定
 
+**useContext()**
+
+组件间共享状态
+
+**useRef()**
+
+`useRef`传入一个参数initValue，并创建一个对象{ current: initValue }给函数组件使用，在整个生命周期中该对象保持不变。
+
+- useRef 用来获取DOM元素
+
+- useRef 用来保存变量
+
+```jsx
+import './App.css';
+import React , { useState, useRef } from 'react'
+function App() {
+  const inputEl = useRef(null)
+  const save = useRef({value: 123}
+  return (
+    <>
+     <h2>useRef</h2>
+     <input type='text' inputRef={inputEl}/>
+     <button onClick={()=> {
+         save.current.value = inputEl.current.value
+         console.log(save)
+     }}>保存-age</button>
+     </>
+  );
+}
+export default App;
+```
+
+**useReducer()**
+
+Reducer的函数形式是`(state,action)=>newState`, 搭配Redux使用.
+
+```jsx
+//接受reducer函数和初始值，返回newStte和dispatch函数
+const [state, dispatch] = useReducer(reducer, initialState);
+```
+
 **EffectHook**
 
-> 数据获取、订阅或者手动修改过 DOM称为sideEffect。
+> 纯函数只进行数据计算，不涉及计算的操作如数据获取、订阅或者手动修改过 DOM称为sideEffect。
 
 `useEffect` 让函数组件也能操作副作用，它与`componentDidMount`、`componentDidUpdate` 和 `componentWillUnmount` 具有相同的用途，只不过被合并成了一个 API。
 
@@ -574,9 +619,11 @@ Class组件对于加载和更新可能需要写两段重复的代码，而Effect
 
 > React 会在组件卸载的时候执行清除操作。
 >
-> 正如之前学到的，effect 在每次渲染的时候都会执行，而不是只在卸载组件的时候执行一次。这就是为什么 React *会*在执行当前 effect 之前对上一个 effect 进行清除。
+> 由于副效应函数默认是每次渲染都会执行，所以清理函数不仅会在组件卸载时执行一次，每次副效应函数重新执行之前，也会执行一次，用来清理上一次渲染的副效应。
 
-注意有些Effect需要清除，需要返回一个函数
+副效应是随着组件加载而发生的，那么组件卸载时，可能需要清理这些副效应。比如异步请求并赋值时组件已经被销毁，后续的操作突然被打断，可能会造成内存泄漏。
+
+
 
 
 
