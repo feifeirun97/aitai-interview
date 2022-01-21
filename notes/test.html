@@ -1,0 +1,61 @@
+<!-- 
+
+1.输入url整个过程
+输入url
+查看cache是否新鲜【max-age expires】是直接返回给client
+浏览器解析url获取协议，域名，端口，路径
+浏览器组装http(get)请求
+浏览器获取主机ip{
+  1. browser cache
+  2. localhost cache
+  3. hosts cache
+  4. router cache
+  5. isp dns cache/ local dns cache{
+    recusion querries
+    iteration querries
+  }
+}
+
+浏览器打开一个socket与目标ip，简历TCP连接
+[socket是网络进程通讯机制，由ip和端口确定]
+三次握手 {
+  first: client [SYN_SENT SYN=1 seq=x] => server 
+  secnd: server [SYN_RCVD SYN=1 ACK=1 ack=seq+1 seq=k] => client  
+  third: client (ack===seq+1 && ACK===1) ? [ESTABLISHED ACK=1 ack=seq+1] => server
+       : server (ack===seq+1 && ACK===1) ? [ESTABLISHED] 
+  第一次: 服务器知道客户端发送正常
+  第二次: 客户端知道自己收发正常，服务器发送正常
+  第三次: 服务器知道客户端收发正常，知道自己收发正常。
+  双发收发正常就可以建立连接
+}
+TCP建立成功发送HTTP请求
+服务器接收到请求并解析，将请求转发到处理程序
+服务器检查HTTP请求头是否包含缓存验证信息，如果缓存新鲜，返回304等代码
+处理程序读取完整请求并准备HTTP响应，可能需要查询数据库等操作
+服务器将响应报文通过TCP发回浏览器
+浏览器根据接受的HTTP响应，根据情况1.关闭 2.保留重用
+四次挥手{
+  first: client [FIN_WAIT_1 FIN=1 seq=x] => server
+  secnd: server [CLOSE_WAIT ACK=1 ack=x+1] => client [FIN_WAIT_2]此时客户端已经没有要发送的数据了，但仍可以接受服务器发来的数据。
+  third: server [LAST_ACK FIN=1 seq=y] => client [TIME_WAIT]
+  forth: client [ACK=1 ack=y+1] => server[closed] 客户端等待2*MSL（报文段最长寿命）时间后也进入CLOSED状态。完成四次挥手
+  第一次: 传输结束后客服端发送关闭请求
+  第二次: 服务器知道客户端要关闭了
+  第三次: 服务器确定没有数据要传送了，客服端发送关闭请求
+  第四次: 客户端知道服务器关闭了，回复已收到
+  目的是确保数据全传完了
+}
+
+浏览器检查响应码：是否是1，3，4，5开头，这些情况与2开头的不同
+如果资源可以缓存，进行缓存
+对响应解码（比如gzip压缩）
+根据资源类型决定如何处理（假设资源为HTML文档），解析HTML文档
+
+构建DOM树{
+  Tokenizing: 根据HTML规范将字符流解析为标记
+  Lexing: 词法分析将标记转换为对象并定义属性和规则
+  DOM construction: 根据HTML标记关系将对象组成DOM树
+}
+解析过程中遇到图片，样式表，js文件，启动下载
+构建
+ -->
