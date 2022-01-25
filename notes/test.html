@@ -19,10 +19,9 @@
 浏览器打开一个socket与目标ip，简历TCP连接
 [socket是网络进程通讯机制，由ip和端口确定]
 三次握手 {
-  first: client [SYN_SENT SYN=1 seq=x] => server 
-  secnd: server [SYN_RCVD SYN=1 ACK=1 ack=seq+1 seq=k] => client  
-  third: client (ack===seq+1 && ACK===1) ? [ESTABLISHED ACK=1 ack=seq+1] => server
-       : server (ack===seq+1 && ACK===1) ? [ESTABLISHED] 
+  first: client [SYN_SEND SYN=1 seq=x] => server
+  secnd: server [SYN_RCVD SYN=1 ack=x+1 seq=y] => client
+  third: client (ACK===1 && ack===x+1) [Established ACK=1 ack=y+1] => sever (ACK===1 && ack===y+1) [Established]
   第一次: 服务器知道客户端发送正常
   第二次: 客户端知道自己收发正常，服务器发送正常
   第三次: 服务器知道客户端收发正常，知道自己收发正常。
@@ -35,13 +34,14 @@ TCP建立成功发送HTTP请求
 服务器将响应报文通过TCP发回浏览器
 浏览器根据接受的HTTP响应，根据情况1.关闭 2.保留重用
 四次挥手{
-  first: client [FIN_WAIT_1 FIN=1 seq=x] => server
-  secnd: server [CLOSE_WAIT ACK=1 ack=x+1] => client [FIN_WAIT_2]此时客户端已经没有要发送的数据了，但仍可以接受服务器发来的数据。
-  third: server [LAST_ACK FIN=1 seq=y] => client [TIME_WAIT]
-  forth: client [ACK=1 ack=y+1] => server[closed] 客户端等待2*MSL（报文段最长寿命）时间后也进入CLOSED状态。完成四次挥手
+  first: client [FIN_WAIT_1] [FIN=1 seq=x]   => server [CLOSE_WAIT]
+  secnd: server [CLOSE_WAIT] [ACK=1 ack=x+1] => client [FIN_WAIT_2] 此时客户端已经没有要发送的数据了，但仍可以接受服务器发来的数据。
+  third: server [LAST_ACK]   [FIN=1 seq=y]   => client [TIME_WAIT]
+  forth: client [TIME_WAIT]  [ACK=1 ack=y+1] => server [CLOSED]     客户端等待2*MSL（报文段最长寿命）时间后也进入CLOSED状态。完成四次挥手  
+
   第一次: 传输结束后客服端发送关闭请求
-  第二次: 服务器知道客户端要关闭了
-  第三次: 服务器确定没有数据要传送了，客服端发送关闭请求
+  第二次: 服务器发送：知道客户端要关闭了
+  第三次: 服务器确定没有数据要传送了，客服端发送：关闭请求
   第四次: 客户端知道服务器关闭了，回复已收到
   目的是确保数据全传完了
 }
@@ -57,5 +57,21 @@ TCP建立成功发送HTTP请求
   DOM construction: 根据HTML标记关系将对象组成DOM树
 }
 解析过程中遇到图片，样式表，js文件，启动下载
-构建
+构建CSSOM树{
+  Tokenizing: 语法分析将字符流解析为标记流
+  Lexing: 词法分析
+}
  -->
+
+<!-- 
+
+TCP四次挥手{
+  first: client [FIN_WAIT_1] [FIN=1 seq=x]   => server [CLOSE_WAIT]
+  secnd: server [CLOSE_WAIT] [ACK=1 ack=x+1] => client [FIN_WAIT_2]
+  third: server [LAST_ACK]   [FIN=1 seq=y]   => client [TIME_WAIT]
+  forth: client [TIME_WAIT]  [ACK=1 ack=y+1] => server [CLOSED]
+  第一次: 客户端告诉服务器没有要发送的东西了
+  第二次: 
+}
+
+-->
